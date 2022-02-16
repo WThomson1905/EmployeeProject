@@ -1,8 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -12,8 +8,6 @@ namespace EmployeeProject
 {
     public class Program
     {
-
-
         private static async Task Main(string[] args)
         {
             List<Employee> employees = new List<Employee>
@@ -61,25 +55,17 @@ namespace EmployeeProject
                     Position = EmployeeType.Engineer
                 },
             };
-            // 
-            // SerialiseObjectToJsonString();
+
             await SerializeToFile(employees);
-            //DeserizalizeEmployeeJson();
 
             Console.WriteLine("Employee Project!");
-
-            
             StartApp();
-
         }
 
         private static async void StartApp()
         {
             var allEmployees = DeserizalizeEmployeeJson();
-            //var jsonSerializer = JsonSerializer.Serialize(allEmployees);
-            //var listOfEmployees = JsonSerializer.Deserialize<List<Employee>>(jsonSerializer);
-
-
+            
             Console.WriteLine("Choose Your Option: 1 - Display All Employees 2 - Add Employee, 3 - Delete Employee 4 - Update Position, 5 - Filter Employees \n");
             var option = Console.ReadLine();
             switch (option)
@@ -116,15 +102,12 @@ namespace EmployeeProject
                     break;
             }
 
-
-
             Console.ReadKey();
-
         }
 
         private static void ChooseFilterEmployeesOption()
         {
-            Console.WriteLine("Choose position type: 1 - Manager 2 - Engineer, 3 - Intern \n");
+            Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
             var option = Console.ReadLine();
             var employees = new List<Employee>(); 
             switch (option)
@@ -150,10 +133,7 @@ namespace EmployeeProject
 
         private static List<Employee> FilterEmployees(EmployeeType position)
         {
-            // get all employees from JSON and store in List<Employee>
-            // filter based on parameter
             List<Employee> employees = DeserizalizeEmployeeJson();
-
             List<Employee> employeesFileteredByPosition = new List<Employee>();
 
             foreach (Employee employee in employees)
@@ -232,14 +212,6 @@ namespace EmployeeProject
             return employees;
         }
 
-
-
-        //public static List<Employee> GetAllEmployees()
-        //{
-        //    List<Employee> employees = DeserizalizeEmployeeJson();
-        //    return employees;
-        //}
-
         private static void DisplayAllEmployees(List<Employee> listOfEmployees)
         {
            
@@ -249,6 +221,7 @@ namespace EmployeeProject
                 {
                     Console.WriteLine("Employee Id: " + employee.EmployeeId);
                     Console.WriteLine("Full Name: " + employee.Forename + " " + employee.Surname);
+                    Console.WriteLine("Emial: " + employee.Email);
                     Console.WriteLine("Position: " + employee.Position);
                     Console.WriteLine();
                 }
@@ -353,32 +326,13 @@ namespace EmployeeProject
                         //position2 = employeeIdElement.GetInt32();
                         //Console.WriteLine($"EmployeeId : {position2}");
                     }
-
                 }
             }
-
-
         }
-        
-
     }
-
-    //
-    // Display all (filtered) employees
-    // 
-
-
-
-
-
 }
 
 
 
 
 
-
-//string jsonString = File.ReadAllText(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
-//Console.WriteLine(jsonString);
-
-//var employees = JsonSerializer.Deserialize<ObservableCollection<Employee>>(jsonString);
