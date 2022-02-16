@@ -2,68 +2,69 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-
+using System.Text.Json.Serialization;
 
 namespace EmployeeProject
 {
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public class Program
     {
         private static async Task Main(string[] args)
         {
-            List<Employee> employees = new List<Employee>
-            {
-                new Employee() {
-                    EmployeeId = 1,
-                    Forename = "Tom",
-                    Surname = "Cruise",
-                    Email = "tc@g.com",
-                    Position = EmployeeType.Manager
-                },
-                 new Employee() {
-                    EmployeeId = 2,
-                    Forename = "Brad",
-                    Surname = "Pitt",
-                    Email = "bp@g.com",
-                    Position = EmployeeType.Engineer
-                },
-                  new Employee() {
-                    EmployeeId = 3,
-                    Forename = "Bill",
-                    Surname = "Sandler",
-                    Email = "bs@g.com",
-                    Position = EmployeeType.Intern
-                },
-                new Employee() {
-                    EmployeeId = 4,
-                    Forename = "Jack",
-                    Surname = "Sheppard",
-                    Email = "js@g.com",
-                    Position = EmployeeType.Engineer
-                },
-                 new Employee() {
-                    EmployeeId = 5,
-                    Forename = "John",
-                    Surname = "Locke",
-                    Email = "jl@g.com",
-                    Position = EmployeeType.Engineer
-                },
-                  new Employee() {
-                    EmployeeId = 6,
-                    Forename = "Kate",
-                    Surname = "Auston",
-                    Email = "ka@g.com",
-                    Position = EmployeeType.Engineer
-                },
-                  new Employee() {
-                    EmployeeId = 7,
-                    Forename = "Ahhhhhhhh",
-                    Surname = "Smith",
-                    Email = "js@g.com",
-                    Position = EmployeeType.Intern
-                }
-            };
-
-            await SerializeToFile(employees);
+            
+                List<Employee> employees = new List<Employee>
+                {
+                    new Employee() {
+                        EmployeeId = 1,
+                        Forename = "Tom",
+                        Surname = "Cruise",
+                        Email = "tc@g.com",
+                        Position = EmployeeType.Manager
+                    },
+                     new Employee() {
+                        EmployeeId = 2,
+                        Forename = "Brad",
+                        Surname = "Pitt",
+                        Email = "bp@g.com",
+                        Position = EmployeeType.Engineer
+                    },
+                      new Employee() {
+                        EmployeeId = 3,
+                        Forename = "Bill",
+                        Surname = "Sandler",
+                        Email = "bs@g.com",
+                        Position = EmployeeType.Intern
+                    },
+                    new Employee() {
+                        EmployeeId = 4,
+                        Forename = "Jack",
+                        Surname = "Sheppard",
+                        Email = "js@g.com",
+                        Position = EmployeeType.Engineer
+                    },
+                     new Employee() {
+                        EmployeeId = 5,
+                        Forename = "John",
+                        Surname = "Locke",
+                        Email = "jl@g.com",
+                        Position = EmployeeType.Engineer
+                    },
+                      new Employee() {
+                        EmployeeId = 6,
+                        Forename = "Kate",
+                        Surname = "Auston",
+                        Email = "ka@g.com",
+                        Position = EmployeeType.Engineer
+                    },
+                      new Employee() {
+                        EmployeeId = 7,
+                        Forename = "Ahhhhhhhh",
+                        Surname = "Smith",
+                        Email = "js@g.com",
+                        Position = EmployeeType.Intern
+                      }
+                };   
+                await SerializeToFile(employees);
 
             Console.WriteLine("Employee Project!");
             StartApp();
@@ -87,7 +88,8 @@ namespace EmployeeProject
                     break;
                 case "3":
                     Console.WriteLine("Opt3: Remove Employee");
-                    await DeleteEmployee();
+                    var chosenId = Console.ReadLine();
+                    await DeleteEmployeeMK2(Convert.ToInt32(chosenId));
                     StartApp();
                     break;
                 case "4":
@@ -201,28 +203,24 @@ namespace EmployeeProject
         //    Console.WriteLine("Ahhhhhhhhhhhhh");
         //}
 
-
         private static async Task SerializeToFile(List<Employee> employees)
         {
-            var fileName = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json";
+            var fileName = @"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\Employees.json";
             Console.WriteLine(File.ReadAllText(fileName));
             using var stream = File.Create(fileName);
             await JsonSerializer.SerializeAsync(stream, employees);
             await stream.DisposeAsync();
         }
 
-
         private static List<Employee> DeserizalizeEmployeeJson()
         {
-            var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            var filePath = new StreamReader(@"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\Employees.json");
             var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
-
+            filePath.Close();
             return employees;
         }
-
         private static void DisplayAllEmployees(List<Employee> listOfEmployees)
         {
-           
             if (listOfEmployees != null)
             {
                 foreach (var employee in listOfEmployees)
@@ -233,16 +231,14 @@ namespace EmployeeProject
                     Console.WriteLine("Position: " + employee.Position);
                     Console.WriteLine();
                 }
-            } else
+            } 
+            else
             {
                 Console.WriteLine("No Employees!!");
             }
             //Console.ReadLine();
             //Console.Clear();
-             
         }
-
-
 
         private static void AddEmployee()
         {
@@ -287,17 +283,14 @@ namespace EmployeeProject
                     employee.Position = EmployeeType.Intern;
                 }
             }
-            var fileName = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            var fileName = new StreamReader(@"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\Employees.json");
 
-
-            using var stream = File.Create(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            using var stream = File.Create(@"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\Employees.json");
             await JsonSerializer.SerializeAsync(stream, employees);
             await stream.DisposeAsync();
             //await SerializeToFile(employees); 
             DisplayAllEmployees(employees);
-
         }
-
 
         private static void UpdateEmployee2(int employeeId)
         {
@@ -307,11 +300,9 @@ namespace EmployeeProject
 
             var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
             var jsonString = filePath.ReadToEnd();
-            
-           
+                
             int position2 = 0;
        
-
             using (JsonDocument document = JsonDocument.Parse(jsonString))
             {
 
@@ -338,30 +329,37 @@ namespace EmployeeProject
             }
         }
 
-
-
         //deletes employee from the db
-        private static async Task DeleteEmployee()
+        private static async Task DeleteEmployeeMK2(int employeeId)
         {
-            var streamPath = new StreamReader(@"C:\Users\Aley\source\repos\EmployeeJSON\EmployeeJSON\Employee.json");
-            var jsonString = streamPath.ToString();
+            List<Employee> employees = DeserizalizeEmployeeJson();
+            int currentId;
 
-            //Finds employee selected(currently hardcoded) and removes from db
-            var employeeObject = JsonSerializer.Deserialize<List<Employee>>(jsonString);
-            Console.WriteLine($"Employee's ID: {employeeObject[0].EmployeeId}");
-            employeeObject.Remove(employeeObject[0]);
+            int itemCount = employees.Count;
 
-            using (StreamWriter writer = File.CreateText(@"C:\Users\Aley\source\repos\EmployeeJSON\EmployeeJSON\Employee.json"))
+            Console.WriteLine("count of items before deleting:{0}", employees.Count);
+
+            foreach (var employee in employees.ToList())
             {
-                string output = JsonSerializer.Serialize(employeeObject);
-                writer.Write(output);
+                currentId = employee.EmployeeId;
+
+                if (currentId == employeeId)
+                {
+
+                    for (int i = itemCount - 1; i >= 0; i--)
+                    {
+                        if (employees[i].EmployeeId == currentId)
+                        {
+                            employees.Remove(employees[i]);
+                            //mylist.RemoveAt(i);
+                        }
+                    }
+                }
             }
-
-            //using var stream = File.Create(streamPath.ToString());
-            //await JsonSerializer.SerializeAsync(stream, employeeObject);
-            //await stream.DisposeAsync();
-        }
-
+            await SerializeToFile(employees);
+            Console.WriteLine("count of items after deleting:{0}", employees.Count);
+            Console.ReadLine();
+        }   
     }
 }
 
