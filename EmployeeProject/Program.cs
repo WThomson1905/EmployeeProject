@@ -56,11 +56,11 @@ namespace EmployeeProject
                 },
                   new Employee() {
                     EmployeeId = 7,
-                    Forename = "Katy",
+                    Forename = "Ben",
                     Surname = "Smith",
                     Email = "ks@g.com",
                     Position = EmployeeType.Intern
-                },
+                }
             };
 
             await SerializeToFile(employees);
