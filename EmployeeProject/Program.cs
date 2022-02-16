@@ -56,7 +56,7 @@ namespace EmployeeProject
                 },
                   new Employee() {
                     EmployeeId = 7,
-                    Forename = "Jack",
+                    Forename = "Timmy",
                     Surname = "Smith",
                     Email = "js@g.com",
                     Position = EmployeeType.Intern
