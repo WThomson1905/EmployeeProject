@@ -164,12 +164,6 @@ namespace EmployeeProject
                 }
             }
 
-            //foreach (Employee employee in employeesFileteredByPosition)
-            //{
-            //    Console.WriteLine(employee.Forename + " " + employee.Surname + ": " + employee.Position);
-            //}
-
-
             return employeesFileteredByPosition;
         }
 
