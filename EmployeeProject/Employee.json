@@ -1,0 +1,56 @@
+{
+  "employee": {
+    "employeeId": 1,
+    "forename": "Tom",
+    "surname": "Cruise",
+    "position": "Manager"
+  }
+}
+
+{
+  "employee": [
+    {
+      "employeeId": "1",
+      "forename": "Tom",
+      "surname": "Cruise",
+      "email": "tc@g.com",
+      "position": "Manager"
+    },
+    {
+      "employeeId": "2",
+      "forename": "Maria",
+      "surname": "Sharapova",
+      "email": "ms@g.com",
+      "position": "Engineer"
+    },
+    {
+      "employeeId": "3",
+      "forename": "James",
+      "surname": "Bond",
+      "email": "jb@g.com",
+      "position": "Intern"
+    }
+  ]
+
+}
+
+[
+  {
+    "employeeId": 1,
+    "forename": "Tom",
+    "surname": "Cruise",
+    "position": "Manager"
+  },
+  {
+    "employeeId": 2,
+    "forename": "Brad",
+    "surname": "Pitt",
+    "position": "Engineer"
+  },
+  {
+    "employeeId": 3,
+    "forename": "Adam",
+    "surname": "Sandler",
+    "position": "Intern"
+  }
+]
