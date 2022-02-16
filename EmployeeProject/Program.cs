@@ -10,6 +10,7 @@ namespace EmployeeProject
     {
         private static async Task Main(string[] args)
         {
+
             List<Employee> employees = new List<Employee>
             {
                 new Employee() {
@@ -53,13 +54,6 @@ namespace EmployeeProject
                     Surname = "Auston",
                     Email = "ka@g.com",
                     Position = EmployeeType.Engineer
-                },
-                  new Employee() {
-                    EmployeeId = 7,
-                    Forename = "Ahhhhhhhh",
-                    Surname = "Smith",
-                    Email = "js@g.com",
-                    Position = EmployeeType.Intern
                 }
             };
 
@@ -73,7 +67,7 @@ namespace EmployeeProject
         {
             var allEmployees = DeserizalizeEmployeeJson();
             
-            Console.WriteLine("Choose Your Option: 1 - Display All Employees 2 - Add Employee, 3 - Delete Employee 4 - Update Position, 5 - Filter Employees \n");
+            Console.WriteLine("Choose Your Option: 1 - Display All Employees, 2 - Add Employee, 3 - Delete Employee, 4 - Update Position, 5 - Filter Employees \n");
             var option = Console.ReadLine();
             switch (option)
             {
@@ -83,6 +77,7 @@ namespace EmployeeProject
                     break;
                 case "2":
                     Console.WriteLine("Opt2: Add Employee");
+                    await AddEmployee(9);
                     StartApp();
                     break;
                 case "3":
@@ -97,7 +92,7 @@ namespace EmployeeProject
 
                     Console.WriteLine("Choose Employee Id\n");
                     var chooseId = Console.ReadLine();
-                    await UpdateEmployeeAsync(Convert.ToInt32(chooseId));
+                    UpdateEmployee(Convert.ToInt32(chooseId));
                     StartApp();
                     break;
                 case "5":
@@ -206,9 +201,13 @@ namespace EmployeeProject
         {
             var fileName = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json";
             Console.WriteLine(File.ReadAllText(fileName));
-            using var stream = File.Create(fileName);
-            await JsonSerializer.SerializeAsync(stream, employees);
-            await stream.DisposeAsync();
+            using (var stream = File.Create(fileName))
+            {
+                await JsonSerializer.SerializeAsync(stream, employees);
+                await stream.DisposeAsync();
+                stream.Close();
+            }
+
         }
 
 
@@ -216,7 +215,7 @@ namespace EmployeeProject
         {
             var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
             var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
-
+            filePath.Close();
             return employees;
         }
 
@@ -244,7 +243,7 @@ namespace EmployeeProject
 
 
 
-        private static void AddEmployee()
+        private static void AdddEmployee()
         {
             // Create a new JsonObject using object initializers.
             var employeeObject = new JsonObject
@@ -254,9 +253,8 @@ namespace EmployeeProject
                 ["surname"] = "Gun",
                 ["email"] = "tg@g.com",
                 ["position"] = 0
-
             };
-         
+
             //// Add an object.
             //forecastObject["TemperatureRanges"]["Hot"] =
             //    new JsonObject { ["High"] = 60, ["Low"] = 20 };
@@ -265,13 +263,97 @@ namespace EmployeeProject
             //forecastObject.Remove("SummaryWords");
 
             //// Change the value of a property.
-            //forecastObject["Date"] = new DateTime(2019, 8, 3);
+            employeeObject["forename"] = "john";
 
-            //var options = new JsonSerializerOptions { WriteIndented = true };
-            //Console.WriteLine(forecastObject.ToJsonString(options));
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            Console.WriteLine(employeeObject.ToJsonString(options));
+
+            //var fileName = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json";
+            //using (FileStream stream = File.OpenWrite(fileName))
+            //{
+               
+
+            //    await JsonSerializer.SerializeAsync(stream, employeeObject);
+            //    await stream.DisposeAsync();
+            //    stream.Close();
+            //}
+
+            string jsonString = File.ReadAllText(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            //string serialString = JsonSerializer.Serialize(employeeObject);
+            //File.WriteAllText(jsonString, serialString);
+
+            /////////////////////////////////////
+            
+
+            var writerOptions = new JsonWriterOptions
+            {
+                Indented = true
+            };
+
+            var documentOptions = new JsonDocumentOptions
+            {
+                CommentHandling = JsonCommentHandling.Skip
+            };
+
+            using FileStream fs = File.Create(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            using var writer = new Utf8JsonWriter(fs, options: writerOptions);
+            using JsonDocument document = JsonDocument.Parse(jsonString, documentOptions);
+
+            JsonElement root = document.RootElement;
+
+            if (root.ValueKind == JsonValueKind.Array)
+            {
+                writer.WriteStartObject();
+            }
+            else
+            {
+                return;
+            }
+
+            foreach (JsonElement element in root.EnumerateArray())
+            {
+                foreach (JsonProperty property in element.EnumerateObject())
+                {
+
+                    property.WriteTo(writer);
+                }
+                //element.WriteTo(writer);
+            }
+
+            writer.WriteEndObject();
+
+            writer.Flush();
         }
-        
-        
+
+        private static async Task AddEmployee(int employeeId)
+        {
+            //Write json data
+            string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json";
+            List<Employee> employees = DeserizalizeEmployeeJson();
+
+            Employee emp = new Employee()
+            {
+                EmployeeId = employeeId,
+                Forename = "William",
+                Surname = "Thomson",
+                Email = "wt@gmail.com",
+                Position = 0
+            };
+
+            employees.Add(emp);
+
+
+            using var stream = File.Create(path);
+            await JsonSerializer.SerializeAsync(stream, employees);
+            await stream.DisposeAsync();
+
+            Console.WriteLine(emp.Forename);
+            Console.WriteLine();
+
+
+        }
+
+
         private static async Task UpdateEmployeeAsync(int employeeId)
         {
 
@@ -299,7 +381,9 @@ namespace EmployeeProject
         }
 
 
-        private static void UpdateEmployee2(int employeeId)
+
+      
+        private static void UpdateEmployee(int employeeId)
         {
             // find employee by id
             // change option to engineer by default for now!
@@ -307,10 +391,10 @@ namespace EmployeeProject
 
             var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
             var jsonString = filePath.ReadToEnd();
-            
-           
-            int position2 = 0;
-       
+
+
+            //int position2 = 0;
+
 
             using (JsonDocument document = JsonDocument.Parse(jsonString))
             {
@@ -336,6 +420,61 @@ namespace EmployeeProject
                     }
                 }
             }
+
+            //    ////////////////
+            //    // source JSON to process
+            //    Console.WriteLine(jsonString);
+
+            //    // root node (opening curly brace)
+            //    List<string>? keys = JsonNode.Parse(jsonString)?.AsArray();
+
+            //    List<string> keys = jsonString.AsObject().Select(
+            //        child => child.Key).ToList();
+            //    if (root != null)
+            //    {
+            //        List<Employee> currentId = root.Deserialize();
+
+            //        for (int i = 0; i <= root.Count(); i++)
+            //        {
+
+            //            if (currentId == employeeId)
+            //            {
+
+            //                JsonNode? positionNode = JsonNode.Parse(employee.ToString());
+            //                Console.WriteLine(employee.ToString());
+            //            }
+            //        }
+            //    }
+
+
+
+
+            //    // if the root contains no key named "container" 
+            //    //JsonNode? containerNode = root?["container"];
+
+            //    //if (containerNode == null)
+            //    //{
+            //    //    return;
+            //    //}
+
+            //    // get the names of the keys under the container key
+            //    //List<string> keys = root.AsArray();
+
+            //    // convert read-only JsonNode to writable JsonObject 
+            //    //JsonObject container = containerNode.AsObject();
+
+            //    // iterate and move keys from container to root
+            //    foreach (string key in keys)
+            //    {
+            //        //JsonNode? move = containerNode[key];
+            //        //container.Remove(key);
+            //        //root?.Add(key, move);
+            //    }
+
+            //    root?.Remove("container");
+
+            //    Console.WriteLine(root);
+
         }
 
 
