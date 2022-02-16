@@ -11,8 +11,10 @@ namespace EmployeeProject
     {
         private static async Task Main(string[] args)
         {
-            
-                List<Employee> employees = new List<Employee>
+            List<Employee>? employees; 
+            if (new FileInfo(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json").Length == 0)
+            {
+                employees = new List<Employee>
                 {
                     new Employee() {
                         EmployeeId = 1,
@@ -21,14 +23,14 @@ namespace EmployeeProject
                         Email = "tc@g.com",
                         Position = EmployeeType.Manager
                     },
-                     new Employee() {
+                        new Employee() {
                         EmployeeId = 2,
                         Forename = "Brad",
                         Surname = "Pitt",
                         Email = "bp@g.com",
                         Position = EmployeeType.Engineer
                     },
-                      new Employee() {
+                        new Employee() {
                         EmployeeId = 3,
                         Forename = "Bill",
                         Surname = "Sandler",
@@ -42,30 +44,35 @@ namespace EmployeeProject
                         Email = "js@g.com",
                         Position = EmployeeType.Engineer
                     },
-                     new Employee() {
+                        new Employee() {
                         EmployeeId = 5,
                         Forename = "John",
                         Surname = "Locke",
                         Email = "jl@g.com",
                         Position = EmployeeType.Engineer
                     },
-                      new Employee() {
+                        new Employee() {
                         EmployeeId = 6,
                         Forename = "Kate",
                         Surname = "Auston",
                         Email = "ka@g.com",
                         Position = EmployeeType.Engineer
                     },
-                      new Employee() {
+                        new Employee() {
                         EmployeeId = 7,
                         Forename = "Ahhhhhhhh",
                         Surname = "Smith",
                         Email = "js@g.com",
                         Position = EmployeeType.Intern
-                      }
+                        }
                 };   
                 await SerializeToFile(employees);
+            } else
+            {
+                employees = DeserizalizeEmployeeJson();
+            }
 
+         
             Console.WriteLine("Employee Project!");
             StartApp();
         }
@@ -83,14 +90,34 @@ namespace EmployeeProject
                     StartApp();
                     break;
                 case "2":
+                    Employee employee = new Employee(); 
+
+
                     Console.WriteLine("Opt2: Add Employee");
-                    await AddEmployee(9);
+                    Console.WriteLine("Choose Employee Id: \n");
+                    employee.EmployeeId = Convert.ToInt32(Console.ReadLine());
+
+                    Console.WriteLine("Choose Employee Forename: \n");
+                    employee.Forename = Console.ReadLine();
+
+                    Console.WriteLine("Choose Employee Surname: \n");
+                    employee.Surname = Console.ReadLine();
+
+                    Console.WriteLine("Choose Employee Email: \n");
+                    employee.Email = Console.ReadLine();
+
+                    Console.WriteLine("Choose Employee Position: 0 - manager, 2 - engineer, 3 - intern\n");
+                    var employeePosition = Console.ReadLine();
+                    employee.Position = (EmployeeType)Convert.ToInt32(employeePosition);
+
+
+                    AddEmployee(employee);
                     StartApp();
                     break;
                 case "3":
                     Console.WriteLine("Opt3: Remove Employee");
                     var chosenId = Console.ReadLine();
-                    await DeleteEmployeeMK2(Convert.ToInt32(chosenId));
+                    DeleteEmployeeMK2(Convert.ToInt32(chosenId));
                     StartApp();
                     break;
                 case "4":
@@ -98,9 +125,13 @@ namespace EmployeeProject
                     Console.WriteLine("Opt4: Choose Employee To Update\n");
                     DisplayAllEmployees(allEmployees);
 
-                    Console.WriteLine("Choose Employee Id\n");
+                    Console.WriteLine("Choose Employee Id: \n");
                     var chooseId = Console.ReadLine();
-                    UpdateEmployee(Convert.ToInt32(chooseId));
+
+                    Console.WriteLine("Choose Position: 0 - Manager, 1 - Enginerr, 2 - Intern\n");
+                    var choosePosition = Console.ReadLine();
+
+                    UpdateEmployeeAsync(Convert.ToInt32(chooseId), Convert.ToInt32(choosePosition));
                     StartApp();
                     break;
                 case "5":
@@ -222,7 +253,7 @@ namespace EmployeeProject
         {
             var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
             var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
-
+            filePath.Close();
             return employees;
         }
         private static void DisplayAllEmployees(List<Employee> listOfEmployees)
@@ -330,36 +361,27 @@ namespace EmployeeProject
             writer.Flush();
         }
 
-        private static async Task AddEmployee(int employeeId)
+        private static async Task AddEmployee(Employee employee)
         {
             //Write json data
             string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json";
             List<Employee> employees = DeserizalizeEmployeeJson();
 
-            Employee emp = new Employee()
+            employees.Add(employee);
+
+            using (var stream = File.Create(path))
             {
-                EmployeeId = employeeId,
-                Forename = "William",
-                Surname = "Thomson",
-                Email = "wt@gmail.com",
-                Position = 0
-            };
-
-            employees.Add(emp);
-
-
-            using var stream = File.Create(path);
-            await JsonSerializer.SerializeAsync(stream, employees);
-            await stream.DisposeAsync();
-
-            Console.WriteLine(emp.Forename);
-            Console.WriteLine();
+                await JsonSerializer.SerializeAsync(stream, employees);
+                await stream.DisposeAsync();
+                stream.Close();
+            }
+            Console.WriteLine(employee.Forename);
 
 
         }
 
 
-        private static async Task UpdateEmployeeAsync(int employeeId)
+        private static async Task UpdateEmployeeAsync(int employeeId, int employeePosition)
         {
 
             List<Employee> employees = DeserizalizeEmployeeJson();
@@ -371,21 +393,28 @@ namespace EmployeeProject
 
                 if (currentId == employeeId)
                 {
-                    employee.Position = EmployeeType.Intern;
+                    // ChangeEmployeePosition(currentEmployeePos, lEmpPos);
+                    employee.Position = (EmployeeType)employeePosition;
                 }
             }
-            var fileName = new StreamReader(@"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\Employees.json");
 
-            using var stream = File.Create(@"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json";
+
+            using var stream = File.Create(path);
             await JsonSerializer.SerializeAsync(stream, employees);
             await stream.DisposeAsync();
-            //await SerializeToFile(employees); 
-            DisplayAllEmployees(employees);
+            stream.Close();
+            //DisplayAllEmployees(employees);
+        }
+
+        private static void ChangeEmployeePosition(EmployeeType currentPosition, EmployeeType lEmployeePosition)
+        {
+            // business logic for checking whether you can change emp position
+
         }
 
 
 
-      
         private static void UpdateEmployee(int employeeId)
         {
             // find employee by id
@@ -508,8 +537,9 @@ namespace EmployeeProject
                 }
             }
             await SerializeToFile(employees);
+
             Console.WriteLine("count of items after deleting:{0}", employees.Count);
-            Console.ReadLine();
+            Console.WriteLine();
         }   
     }
 }
