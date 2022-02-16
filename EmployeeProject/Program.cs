@@ -60,7 +60,7 @@ namespace EmployeeProject
                     Surname = "Smith",
                     Email = "js@g.com",
                     Position = EmployeeType.Intern
-                },
+                }
             };
 
             await SerializeToFile(employees);
