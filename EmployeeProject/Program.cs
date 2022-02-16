@@ -80,6 +80,7 @@ namespace EmployeeProject
                     break;
                 case "3":
                     Console.WriteLine("Opt3: Remove Employee");
+                    await DeleteEmployee();
                     StartApp();
                     break;
                 case "4":
@@ -329,10 +330,31 @@ namespace EmployeeProject
                 }
             }
         }
+
+
+
+        //deletes employee from the db
+        private static async Task DeleteEmployee()
+        {
+            var streamPath = new StreamReader(@"C:\Users\Aley\source\repos\EmployeeJSON\EmployeeJSON\Employee.json");
+            var jsonString = streamPath.ToString();
+
+            //Finds employee selected(currently hardcoded) and removes from db
+            var employeeObject = JsonSerializer.Deserialize<List<Employee>>(jsonString);
+            Console.WriteLine($"Employee's ID: {employeeObject[0].EmployeeId}");
+            employeeObject.Remove(employeeObject[0]);
+
+            using (StreamWriter writer = File.CreateText(@"C:\Users\Aley\source\repos\EmployeeJSON\EmployeeJSON\Employee.json"))
+            {
+                string output = JsonSerializer.Serialize(employeeObject);
+                writer.Write(output);
+            }
+
+            //using var stream = File.Create(streamPath.ToString());
+            //await JsonSerializer.SerializeAsync(stream, employeeObject);
+            //await stream.DisposeAsync();
+        }
+
     }
 }
-
-
-
-
 
