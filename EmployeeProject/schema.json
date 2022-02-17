@@ -1,168 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "array",
-  "items": [
-    {
-      "type": "object",
-      "properties": {
-        "employeeId": {
-          "type": "integer"
-        },
-        "forename": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "position": {
-          "type": "integer"
-        }
+  "items": {
+    "type": "object",
+    "properties": {
+      "employeeId": {
+        "type": "integer"
       },
-      "required": [
-        "employeeId",
-        "forename",
-        "surname",
-        "email",
-        "position"
-      ]
+      "forename": {
+        "type": "string"
+      },
+      "surname": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "email description"
+      },
+      "position": {
+        "type": "integer"
+      }
     },
-    {
-      "type": "object",
-      "properties": {
-        "employeeId": {
-          "type": "integer"
-        },
-        "forename": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "position": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "employeeId",
-        "forename",
-        "surname",
-        "email",
-        "position"
-      ]
-    },
-    {
-      "type": "object",
-      "properties": {
-        "employeeId": {
-          "type": "integer"
-        },
-        "forename": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "position": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "employeeId",
-        "forename",
-        "surname",
-        "email",
-        "position"
-      ]
-    },
-    {
-      "type": "object",
-      "properties": {
-        "employeeId": {
-          "type": "integer"
-        },
-        "forename": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "position": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "employeeId",
-        "forename",
-        "surname",
-        "email",
-        "position"
-      ]
-    },
-    {
-      "type": "object",
-      "properties": {
-        "employeeId": {
-          "type": "integer"
-        },
-        "forename": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "position": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "employeeId",
-        "forename",
-        "surname",
-        "email",
-        "position"
-      ]
-    },
-    {
-      "type": "object",
-      "properties": {
-        "employeeId": {
-          "type": "integer"
-        },
-        "forename": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "position": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "employeeId",
-        "forename",
-        "surname",
-        "email",
-        "position"
-      ]
-    }
-  ]
+    "required": [
+      "employeeId",
+      "forename",
+      "surname",
+      "email",
+      "position"
+    ]
+  }
+
+
 }
