@@ -9,6 +9,7 @@ namespace EmployeeProject
     public class Program
     {
         public static string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
+        
         private static async Task Main(string[] args)
         {
             List<Employee> employees;
@@ -181,6 +182,7 @@ namespace EmployeeProject
             }
         }
 
+
         private static List<Employee> FilterEmployees(EmployeeType position)
         {
             List<Employee> employees = DeserizalizeEmployeeJson();
@@ -197,51 +199,6 @@ namespace EmployeeProject
             return employeesFileteredByPosition;
         }
 
-        //public static void SerialiseObjectToJsonString()
-        //{
-        //    List<Employee> employees = new List<Employee>
-        //    {
-        //        new Employee() {
-        //            EmployeeId = 1,
-        //            Forename = "Tom",
-        //            Surname = "Cruise",
-        //            Position = EmployeeType.Manager
-        //        },
-        //         new Employee() {
-        //            EmployeeId = 2,
-        //            Forename = "Brad",
-        //            Surname = "Pitt",
-        //            Position = EmployeeType.Engineer
-        //        },
-        //          new Employee() {
-        //            EmployeeId = 3,
-        //            Forename = "Bill",
-        //            Surname = "Sandler",
-        //            Position = EmployeeType.Intern
-        //        },
-        //        new Employee() {
-        //            EmployeeId = 4,
-        //            Forename = "Jack",
-        //            Surname = "Sheppard",
-        //            Position = EmployeeType.Engineer
-        //        },
-        //         new Employee() {
-        //            EmployeeId = 5,
-        //            Forename = "John",
-        //            Surname = "Locke",
-        //            Position = EmployeeType.Engineer
-        //        },
-        //          new Employee() {
-        //            EmployeeId = 6,
-        //            Forename = "Kate",
-        //            Surname = "Auston",
-        //            Position = EmployeeType.Engineer
-        //        },
-        //    };
-        //    var jsonSerializer = JsonSerializer.Serialize(employees);
-        //    Console.WriteLine(jsonSerializer);
-        //    Console.WriteLine("Ahhhhhhhhhhhhh");
-        //}
 
         private static async Task SerializeToFile(List<Employee> employees)
         { 
@@ -310,8 +267,6 @@ namespace EmployeeProject
                 {
                     ChangeEmployeePosition(employee.Position, selectedEmployeeType);
 
-                   
-
                     employee.Position = selectedEmployeeType;
                 }
             }
@@ -336,7 +291,6 @@ namespace EmployeeProject
                 Console.WriteLine("Can't change Engineer to intern!");
                 StartApp();
             }
-
         }
 
 
@@ -344,15 +298,10 @@ namespace EmployeeProject
         private static void UpdateEmployee(int employeeId)
         {
             // find employee by id
-            // change option to engineer by default for now!
-            // 
+            // change option to engineer by default for now! 
 
             var filePath = new StreamReader(path);
             var jsonString = filePath.ReadToEnd();
-
-
-            //int position2 = 0;
-
 
             using (JsonDocument document = JsonDocument.Parse(jsonString))
             {
@@ -365,74 +314,11 @@ namespace EmployeeProject
 
                     if (currentId == employeeId)
                     {
-
                         JsonNode? positionNode = JsonNode.Parse(employee.ToString());
-                        // Write JSON from a JsonNode
                         Console.WriteLine(employee.ToString());
-                        //employee["forename"] = "billybob";
-
-                        //employee["forename"] = "1";
-
-                        //position2 = employeeIdElement.GetInt32();
-                        //Console.WriteLine($"EmployeeId : {position2}");
                     }
                 }
-            }
-
-            //    ////////////////
-            //    // source JSON to process
-            //    Console.WriteLine(jsonString);
-
-            //    // root node (opening curly brace)
-            //    List<string>? keys = JsonNode.Parse(jsonString)?.AsArray();
-
-            //    List<string> keys = jsonString.AsObject().Select(
-            //        child => child.Key).ToList();
-            //    if (root != null)
-            //    {
-            //        List<Employee> currentId = root.Deserialize();
-
-            //        for (int i = 0; i <= root.Count(); i++)
-            //        {
-
-            //            if (currentId == employeeId)
-            //            {
-
-            //                JsonNode? positionNode = JsonNode.Parse(employee.ToString());
-            //                Console.WriteLine(employee.ToString());
-            //            }
-            //        }
-            //    }
-
-
-
-
-            //    // if the root contains no key named "container" 
-            //    //JsonNode? containerNode = root?["container"];
-
-            //    //if (containerNode == null)
-            //    //{
-            //    //    return;
-            //    //}
-
-            //    // get the names of the keys under the container key
-            //    //List<string> keys = root.AsArray();
-
-            //    // convert read-only JsonNode to writable JsonObject 
-            //    //JsonObject container = containerNode.AsObject();
-
-            //    // iterate and move keys from container to root
-            //    foreach (string key in keys)
-            //    {
-            //        //JsonNode? move = containerNode[key];
-            //        //container.Remove(key);
-            //        //root?.Add(key, move);
-            //    }
-
-            //    root?.Remove("container");
-
-            //    Console.WriteLine(root);
-
+            }   
         }
 
         //deletes employee from the db
@@ -457,7 +343,6 @@ namespace EmployeeProject
                         if (employees[i].EmployeeId == currentId)
                         {
                             employees.Remove(employees[i]);
-                            //mylist.RemoveAt(i);
                         }
                     }
                 }
