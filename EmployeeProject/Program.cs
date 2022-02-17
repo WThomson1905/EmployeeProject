@@ -202,9 +202,9 @@ namespace EmployeeProject
         //}
 
 
-        private static async Task SerializeToFile(List<Employee> employees)
+        private static async Task SerializeToFile(List<Employee> employees, string path)
         {
-            var fileName = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json";
+            var fileName = path;
             Console.WriteLine(File.ReadAllText(fileName));
             using var stream = File.Create(fileName);
             await JsonSerializer.SerializeAsync(stream, employees);
@@ -212,9 +212,9 @@ namespace EmployeeProject
         }
 
 
-        private static List<Employee> DeserizalizeEmployeeJson()
+        private static List<Employee> DeserizalizeEmployeeJson(string path)
         {
-            var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            var filePath = new StreamReader(path);
             var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
 
             return employees;
@@ -272,10 +272,10 @@ namespace EmployeeProject
         }
         
         
-        private static async Task UpdateEmployeeAsync(int employeeId)
+        private static async Task UpdateEmployeeAsync(int employeeId, string path)
         {
 
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             int currentId;
 
             foreach (var employee in employees)
@@ -287,10 +287,10 @@ namespace EmployeeProject
                     employee.Position = EmployeeType.Intern;
                 }
             }
-            var fileName = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            var fileName = new StreamReader(path);
 
 
-            using var stream = File.Create(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            using var stream = File.Create(path);
             await JsonSerializer.SerializeAsync(stream, employees);
             await stream.DisposeAsync();
             //await SerializeToFile(employees); 
@@ -299,13 +299,13 @@ namespace EmployeeProject
         }
 
 
-        private static void UpdateEmployee2(int employeeId)
+        private static void UpdateEmployee2(int employeeId, string path)
         {
             // find employee by id
             // change option to engineer by default for now!
             // 
 
-            var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            var filePath = new StreamReader(path);
             var jsonString = filePath.ReadToEnd();
             
            
