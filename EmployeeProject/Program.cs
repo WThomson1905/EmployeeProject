@@ -335,13 +335,13 @@ namespace EmployeeProject
 
 
 
-        private static void UpdateEmployee(int employeeId)
+        private static void UpdateEmployee(int employeeId, string path)
         {
             // find employee by id
             // change option to engineer by default for now!
             // 
 
-            var filePath = new StreamReader(@"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\Employees.json");
+            var filePath = new StreamReader(path);
             var jsonString = filePath.ReadToEnd();
 
 
