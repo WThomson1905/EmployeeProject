@@ -7,6 +7,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties employees_1json__JsonSchema="schema.js" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties employees_1json__JsonSchema="schema.json" /></VisualStudio></ProjectExtensions>
 
 </Project>
