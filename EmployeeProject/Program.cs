@@ -213,7 +213,7 @@ namespace EmployeeProject
         }
 
 
-        private static List<Employee> DeserizalizeEmployeeJson(string path)
+        private static List<Employee> DeserizalizeEmployeeJson()
         {
             var filePath = new StreamReader(path);
             var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
@@ -256,7 +256,7 @@ namespace EmployeeProject
         private static async Task UpdateEmployeeAsync(int employeeId, EmployeeType selectedEmployeeType)
         {
 
-            List<Employee> employees = DeserizalizeEmployeeJson(path);
+            List<Employee> employees = DeserizalizeEmployeeJson();
             int currentId;
 
             foreach (var employee in employees)
