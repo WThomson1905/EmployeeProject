@@ -1,4 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿//Application to allow a user to retrieve a list of employees, Add to the list, delete from the list
+//edit an employee's position to allow promotion and demotion, and to filter through the list of
+//employees by position.
+
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -8,13 +12,16 @@ namespace EmployeeProject
 {
     public class Program
     {
-        public static string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
+        //The Path to where the JSON file is stored to be used throughout the program
+        public static string path = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
         
         private static async Task Main(string[] args)
         {
+            //Gets the list of employees and checks if the JSON file has values
             List<Employee> employees;
             if (new FileInfo(path).Length == 0)
             {
+                //if JSON file has no values, it is populated with these values
                 employees = new List<Employee>
                 {
                     new Employee()
@@ -78,6 +85,7 @@ namespace EmployeeProject
             }
             else
             {
+                //if JSON file has values, the contents are read
                 employees = DeserizalizeEmployeeJson();
             }
          
@@ -85,6 +93,7 @@ namespace EmployeeProject
             StartApp();
         }
 
+        //Console Applications start screen displaying options
         private static async void StartApp()
         {
             var allEmployees = DeserizalizeEmployeeJson();
@@ -97,31 +106,25 @@ namespace EmployeeProject
                     DisplayAllEmployees(allEmployees);
                     StartApp();
                     break;
+
                 case "2":
                     Employee employee = new Employee(); 
-
-
                     Console.WriteLine("Opt2: Add Employee");
                     Console.WriteLine("Choose Employee Id: \n");
                     employee.EmployeeId = Convert.ToInt32(Console.ReadLine());
-
                     Console.WriteLine("Choose Employee Forename: \n");
                     employee.Forename = Console.ReadLine();
-
                     Console.WriteLine("Choose Employee Surname: \n");
                     employee.Surname = Console.ReadLine();
-
                     Console.WriteLine("Choose Employee Email: \n");
                     employee.Email = Console.ReadLine();
-
                     Console.WriteLine("Choose Employee Position: 0 - manager, 1 - engineer, 2 - intern\n");
                     var employeePosition = Console.ReadLine();
                     employee.Position = (EmployeeType)Convert.ToInt32(employeePosition);
-
-
                     AddEmployee(employee);
                     StartApp();
                     break;
+
                 case "3":
                     Console.WriteLine("Opt3: Remove Employee");
                     var chosenId = Console.ReadLine();
@@ -133,21 +136,20 @@ namespace EmployeeProject
                     Console.Clear();
                     Console.WriteLine("Opt4: Choose Employee To Update\n");
                     DisplayAllEmployees(allEmployees);
-
                     Console.WriteLine("Choose Employee Id: \n");
                     var chooseId = Console.ReadLine();
-
                     Console.WriteLine("Choose Position: 0 - Manager, 1 - Engineer, 2 - Intern\n");
                     var choosePosition = Convert.ToInt32(Console.ReadLine());
-
                     UpdateEmployeeAsync(Convert.ToInt32(chooseId), (EmployeeType)choosePosition);
                     StartApp();
                     break;
+
                 case "5":
                     Console.WriteLine("Opt5: Filter Employees");
                     ChooseFilterEmployeesOption();
                     StartApp();
                     break;
+
                 default:
                     StartApp();
                     break;
@@ -156,6 +158,7 @@ namespace EmployeeProject
             Console.ReadKey();
         }
 
+        //Allows user to choose the position they wish to filter through the employees by position
         private static void ChooseFilterEmployeesOption()
         {
             Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
@@ -182,16 +185,19 @@ namespace EmployeeProject
             }
         }
 
-
+        //Filters the employees by their position
         private static List<Employee> FilterEmployees(EmployeeType position)
         {
             List<Employee> employees = DeserizalizeEmployeeJson();
             List<Employee> employeesFileteredByPosition = new List<Employee>();
 
+            
             foreach (Employee employee in employees)
             {
-                if(employee.Position == position)
+                //if employee position matches the position entered by the user
+                if (employee.Position == position)
                 {
+                    //Add the employee to the filtered list
                     employeesFileteredByPosition.Add(employee);
                 }
             }
@@ -199,7 +205,7 @@ namespace EmployeeProject
             return employeesFileteredByPosition;
         }
 
-
+        //Serializes the JSON file when it is updated/created
         private static async Task SerializeToFile(List<Employee> employees)
         { 
             //Console.WriteLine(File.ReadAllText(path));
@@ -212,7 +218,7 @@ namespace EmployeeProject
 
         }
 
-
+        //Deserializes the JSON file
         private static List<Employee> DeserizalizeEmployeeJson()
         {
             var filePath = new StreamReader(path);
@@ -220,10 +226,14 @@ namespace EmployeeProject
             filePath.Close();
             return employees;
         }
+
+        //Displays all the employees stored inside the JSON file
         private static void DisplayAllEmployees(List<Employee> listOfEmployees)
         {
+            //if the lost of employees has values
             if (listOfEmployees != null)
             {
+                //display their details
                 foreach (var employee in listOfEmployees)
                 {
                     Console.WriteLine("Employee Id: " + employee.EmployeeId);
@@ -237,22 +247,20 @@ namespace EmployeeProject
             {
                 Console.WriteLine("No Employees!!");
             }
-            //Console.ReadLine();
-            //Console.Clear();
         }
 
+        //Allows user to add an employee
         private static async Task AddEmployee(Employee employee)
         {
             //Write json data
             List<Employee> employees = DeserizalizeEmployeeJson();
-
             employees.Add(employee);
             await SerializeToFile(employees);
 
             Console.WriteLine(employee.Forename);
         }
 
-
+        //Updates the employee selected by the user
         private static async Task UpdateEmployeeAsync(int employeeId, EmployeeType selectedEmployeeType)
         {
 
@@ -263,8 +271,10 @@ namespace EmployeeProject
             {
                 currentId = employee.EmployeeId;
 
+                //if the id chosen is the same as employee id in the list
                 if (currentId == employeeId)
                 {
+                    //calls ChangeEmployeePosition and changes the current position to the chosen position
                     ChangeEmployeePosition(employee.Position, selectedEmployeeType);
 
                     employee.Position = selectedEmployeeType;
@@ -275,6 +285,7 @@ namespace EmployeeProject
           
         }
 
+        //call to ensure that the correct position has been selected else throws error message
         private static void ChangeEmployeePosition(EmployeeType currentEmployeeType, EmployeeType selectedEmployeeType)
         {
             // business logic for checking whether you can change emp position
@@ -294,7 +305,7 @@ namespace EmployeeProject
         }
 
 
-
+        //Update method that isnt used within the application
         private static void UpdateEmployee(int employeeId)
         {
             // find employee by id
@@ -321,12 +332,13 @@ namespace EmployeeProject
             }   
         }
 
-        //deletes employee from the db
+        //deletes employee from the list
         private static async Task DeleteEmployeeMK2(int employeeId)
         {
             List<Employee> employees = DeserizalizeEmployeeJson();
             int currentId;
 
+            //counts the number of employees in the list before deleting
             int itemCount = employees.Count;
 
             Console.WriteLine("count of items before deleting:{0}", employees.Count);
@@ -340,14 +352,18 @@ namespace EmployeeProject
 
                     for (int i = itemCount - 1; i >= 0; i--)
                     {
+                        //if the id chosen matches the current id of the employee 
                         if (employees[i].EmployeeId == currentId)
                         {
+                            //employee is deleted
                             employees.Remove(employees[i]);
                         }
                     }
                 }
             }
 
+            //saves to file and then counts the number of employees in the list after deleting
+            //used to check if delete actually works
             await SerializeToFile(employees);
             Console.WriteLine("count of items after deleting:{0}", employees.Count);
         }   

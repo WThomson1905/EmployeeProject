@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeProject
 {
-
+    //Employee Getters and Setters
     public class Employee : IEmployee
     {
         [JsonPropertyName("employeeId")]
