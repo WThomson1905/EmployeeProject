@@ -78,7 +78,7 @@ namespace EmployeeProject
             }
             else
             {
-                employees = DeserizalizeEmployeeJson();
+                employees = DeserizalizeEmployeeJson(path);
             }
          
             Console.WriteLine("Employee Project!");
@@ -87,7 +87,7 @@ namespace EmployeeProject
 
         private static async void StartApp()
         {
-            var allEmployees = DeserizalizeEmployeeJson();
+            var allEmployees = DeserizalizeEmployeeJson(path);
             
             Console.WriteLine("Choose Your Option: 1 - Display All Employees, 2 - Add Employee, 3 - Delete Employee, 4 - Update Position, 5 - Filter Employees \n");
             var option = Console.ReadLine();
@@ -185,7 +185,7 @@ namespace EmployeeProject
 
         private static List<Employee> FilterEmployees(EmployeeType position)
         {
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             List<Employee> employeesFileteredByPosition = new List<Employee>();
 
             foreach (Employee employee in employees)
@@ -213,7 +213,7 @@ namespace EmployeeProject
         }
 
 
-        private static List<Employee> DeserizalizeEmployeeJson()
+        public static List<Employee> DeserizalizeEmployeeJson(string path)
         {
             var filePath = new StreamReader(path);
             var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
@@ -241,10 +241,10 @@ namespace EmployeeProject
             //Console.Clear();
         }
 
-        private static async Task AddEmployee(Employee employee)
+        public static async Task AddEmployee(Employee employee)
         {
             //Write json data
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
 
             employees.Add(employee);
             await SerializeToFile(employees);
@@ -256,7 +256,7 @@ namespace EmployeeProject
         private static async Task UpdateEmployeeAsync(int employeeId, EmployeeType selectedEmployeeType)
         {
 
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             int currentId;
 
             foreach (var employee in employees)
@@ -266,7 +266,6 @@ namespace EmployeeProject
                 if (currentId == employeeId)
                 {
                     ChangeEmployeePosition(employee.Position, selectedEmployeeType);
-
                     employee.Position = selectedEmployeeType;
                 }
             }
@@ -275,7 +274,7 @@ namespace EmployeeProject
           
         }
 
-        private static void ChangeEmployeePosition(EmployeeType currentEmployeeType, EmployeeType selectedEmployeeType)
+        public static void ChangeEmployeePosition(EmployeeType currentEmployeeType, EmployeeType selectedEmployeeType)
         {
             // business logic for checking whether you can change emp position
             // manager != intern
@@ -322,9 +321,9 @@ namespace EmployeeProject
         }
 
         //deletes employee from the db
-        private static async Task DeleteEmployeeMK2(int employeeId)
+        public static async Task DeleteEmployeeMK2(int employeeId)
         {
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             int currentId;
 
             int itemCount = employees.Count;
