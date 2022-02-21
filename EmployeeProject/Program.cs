@@ -7,14 +7,16 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using NJsonSchema;
 
 namespace EmployeeProject
 {
     public class Program
     {
-        //The Path to where the JSON file is stored to be used throughout the program
-        public static string path = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
-        
+
+        public static string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
+        public static string schemaPath = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\schema.json";
+
         private static async Task Main(string[] args)
         {
             //Gets the list of employees and checks if the JSON file has values
@@ -83,12 +85,7 @@ namespace EmployeeProject
                 };
                 await SerializeToFile(employees);
             }
-            else
-            {
-                //if JSON file has values, the contents are read
-                employees = DeserizalizeEmployeeJson();
-            }
-         
+
             Console.WriteLine("Employee Project!");
             StartApp();
         }
@@ -96,7 +93,7 @@ namespace EmployeeProject
         //Console Applications start screen displaying options
         private static async void StartApp()
         {
-            var allEmployees = DeserizalizeEmployeeJson();
+            var allEmployees = DeserizalizeEmployeeJson(path);
             
             Console.WriteLine("Choose Your Option: 1 - Display All Employees, 2 - Add Employee, 3 - Delete Employee, 4 - Update Position, 5 - Filter Employees \n");
             var option = Console.ReadLine();
@@ -188,7 +185,7 @@ namespace EmployeeProject
         //Filters the employees by their position
         private static List<Employee> FilterEmployees(EmployeeType position)
         {
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             List<Employee> employeesFileteredByPosition = new List<Employee>();
 
             
@@ -219,7 +216,7 @@ namespace EmployeeProject
         }
 
         //Deserializes the JSON file
-        private static List<Employee> DeserizalizeEmployeeJson()
+        public static List<Employee> DeserizalizeEmployeeJson(string path)
         {
             var filePath = new StreamReader(path);
             var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
@@ -249,22 +246,46 @@ namespace EmployeeProject
             }
         }
 
-        //Allows user to add an employee
-        private static async Task AddEmployee(Employee employee)
+
+
+        private static async Task CheckJsonWithSchema(Employee employee)
+        {
+
+            var jsonSchema = await JsonSchema.FromFileAsync(schemaPath);
+            // var json = await File.ReadAllTextAsync(path);
+
+            var jsonString = JsonSerializer.Serialize(employee);
+
+            var errors = jsonSchema.Validate(jsonString);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error);
+            }
+
+            if (errors.Count() > 0)
+            {
+                StartApp();
+            }
+
+        }
+
+
+        public static async Task AddEmployee(Employee employee)
         {
             //Write json data
-            List<Employee> employees = DeserizalizeEmployeeJson();
-            employees.Add(employee);
-            await SerializeToFile(employees);
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
+            CheckJsonWithSchema(employee);
 
-            Console.WriteLine(employee.Forename);
+            employees.Add(employee);
+
+            await SerializeToFile(employees);
         }
 
         //Updates the employee selected by the user
         private static async Task UpdateEmployeeAsync(int employeeId, EmployeeType selectedEmployeeType)
         {
 
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             int currentId;
 
             foreach (var employee in employees)
@@ -276,14 +297,16 @@ namespace EmployeeProject
                 {
                     //calls ChangeEmployeePosition and changes the current position to the chosen position
                     ChangeEmployeePosition(employee.Position, selectedEmployeeType);
-
                     employee.Position = selectedEmployeeType;
+                    CheckJsonWithSchema(employee);
+
                 }
             }
 
             await SerializeToFile(employees);
           
         }
+
 
         //call to ensure that the correct position has been selected else throws error message
         private static void ChangeEmployeePosition(EmployeeType currentEmployeeType, EmployeeType selectedEmployeeType)
@@ -332,10 +355,11 @@ namespace EmployeeProject
             }   
         }
 
-        //deletes employee from the list
-        private static async Task DeleteEmployeeMK2(int employeeId)
+
+        //deletes employee from the db
+        public static async Task DeleteEmployeeMK2(int employeeId)
         {
-            List<Employee> employees = DeserizalizeEmployeeJson();
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             int currentId;
 
             //counts the number of employees in the list before deleting

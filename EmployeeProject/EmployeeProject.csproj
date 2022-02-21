@@ -9,4 +9,8 @@
 
   <ProjectExtensions><VisualStudio><UserProperties employees_1json__JsonSchema="schema.json" /></VisualStudio></ProjectExtensions>
 
+  <ItemGroup>
+    <PackageReference Include="NJsonSchema" Version="10.6.9" />
+  </ItemGroup>
+
 </Project>
