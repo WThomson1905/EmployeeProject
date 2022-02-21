@@ -3,13 +3,15 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using NJsonSchema;
 
 namespace EmployeeProject
 {
     public class Program
     {
         public static string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
-        
+        public static string schemaPath = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\schema.json";
+
         private static async Task Main(string[] args)
         {
             List<Employee> employees;
@@ -76,11 +78,7 @@ namespace EmployeeProject
                 };
                 await SerializeToFile(employees);
             }
-            else
-            {
-                employees = DeserizalizeEmployeeJson(path);
-            }
-         
+
             Console.WriteLine("Employee Project!");
             StartApp();
         }
@@ -241,15 +239,38 @@ namespace EmployeeProject
             //Console.Clear();
         }
 
+
+        private static async Task CheckJsonWithSchema(Employee employee)
+        {
+
+            var jsonSchema = await JsonSchema.FromFileAsync(schemaPath);
+            // var json = await File.ReadAllTextAsync(path);
+
+            var jsonString = JsonSerializer.Serialize(employee);
+
+            var errors = jsonSchema.Validate(jsonString);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error);
+            }
+
+            if (errors.Count() > 0)
+            {
+                StartApp();
+            }
+
+        }
+
+
         public static async Task AddEmployee(Employee employee)
         {
             //Write json data
             List<Employee> employees = DeserizalizeEmployeeJson(path);
+            CheckJsonWithSchema(employee);
 
             employees.Add(employee);
-            await SerializeToFile(employees);
 
-            Console.WriteLine(employee.Forename);
+            await SerializeToFile(employees);
         }
 
 
@@ -267,6 +288,8 @@ namespace EmployeeProject
                 {
                     ChangeEmployeePosition(employee.Position, selectedEmployeeType);
                     employee.Position = selectedEmployeeType;
+                    CheckJsonWithSchema(employee);
+
                 }
             }
 
