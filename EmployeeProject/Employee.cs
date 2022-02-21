@@ -29,6 +29,24 @@ namespace EmployeeProject
         [JsonPropertyName("position")]
         [JsonInclude]
         public EmployeeType Position { get; set; }
+
+        public Employee()
+        {
+            EmployeeId = 0;
+            Forename = "";
+            Surname = "";
+            Email = "";
+            Position = new EmployeeType();
+        }
+
+        public Employee(int employeeId, string forename, string surname, string email, EmployeeType position)
+        { 
+            EmployeeId = employeeId;
+            Forename = forename;
+            Surname = surname;
+            Email = email;
+            Position = position;
+        }
     }
 
     public enum EmployeeType
