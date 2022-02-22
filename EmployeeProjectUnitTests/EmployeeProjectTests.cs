@@ -35,7 +35,7 @@ namespace EmployeeProjectUnitTests
                 Position = 0
             };
 
-            Program.AddEmployee(employee);
+            //Program.AddEmployee(employee);
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace EmployeeProjectUnitTests
             // Arrange 
             var employeeId = 122;
                
-            Program.DeleteEmployeeMK2(employeeId);
+            //Program.DeleteEmployeeMK2(employeeId);
         }
 
 
