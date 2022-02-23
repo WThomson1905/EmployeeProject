@@ -184,7 +184,7 @@ namespace EmployeeProject
                     break;
                 case "5":
                     Console.WriteLine("Opt5: Filter Employees");
-                    employeesFilter = _employeeController.ChooseFilterEmployeesOption();
+                    employeesFilter = ChooseFilterEmployeesOption();
                     DisplayAllEmployees(employeesFilter);
                     StartApp();
                     break;
@@ -241,6 +241,32 @@ namespace EmployeeProject
             }
             return true;
         }
+
+
+
+        public List<Employee> ChooseFilterEmployeesOption()
+        {
+            Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
+            var option = Console.ReadLine();
+            var employees = new List<Employee>();
+            switch (option)
+            {
+                case "1":
+                    employees = _employeeController.FilterEmployees(EmployeeType.Manager);
+                    break;
+                case "2":
+                    employees = _employeeController.FilterEmployees(EmployeeType.Engineer);
+                    break;
+                case "3":
+                    employees = _employeeController.FilterEmployees(EmployeeType.Intern);
+                    break;
+                default:
+                    ChooseFilterEmployeesOption();
+                    break;
+            }
+            return employees;
+        }
+
 
     }
 }

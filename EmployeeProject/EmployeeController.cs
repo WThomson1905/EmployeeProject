@@ -91,28 +91,6 @@ namespace EmployeeProject
         }
 
 
-        public List<Employee> ChooseFilterEmployeesOption()
-        {
-            Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
-            var option = Console.ReadLine();
-            var employees = new List<Employee>();
-            switch (option)
-            {
-                case "1":
-                    employees = FilterEmployees(EmployeeType.Manager);
-                    break;
-                case "2":
-                    employees = FilterEmployees(EmployeeType.Engineer);
-                    break;
-                case "3":
-                    employees = FilterEmployees(EmployeeType.Intern);
-                    break;
-                default:
-                    ChooseFilterEmployeesOption();
-                    break;
-            }
-            return employees;
-        }
 
 
         public List<Employee> FilterEmployees(EmployeeType position)

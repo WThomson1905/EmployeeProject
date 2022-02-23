@@ -16,7 +16,7 @@ namespace EmployeeProjectUnitTests
         //}
 
         //public void MethodName_Scenario_ExpectedBehaviour
-        //public void CanBeCalcelledBy_IsAdmin_ReturnsTrue
+        //public void CanBeCancelledBy_IsAdmin_ReturnsTrue
 
 
         // Initial Data 
