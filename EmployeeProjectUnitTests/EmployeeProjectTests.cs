@@ -105,7 +105,7 @@ namespace EmployeeProjectUnitTests
         [TestMethod]
         public void AddEmployee_AddingNewInvalidEmployee_ShouldNotAdd()
         {
-            // Arrange
+            // Arrange - invalid email
             Employee employee = new Employee()
             {
                 EmployeeId = 101,

@@ -96,7 +96,7 @@ namespace EmployeeProject
 
         public void StartApp()
         {
-            employees = _employeeController.DeserizalizeEmployeeJson(path);
+            //employees = _employeeController.DeserizalizeEmployeeJson(path);
 
             Console.WriteLine("Choose Your Option: 1 - Display All Employees, 2 - Add Employee, 3 - Delete Employee, 4 - Update Position, 5 - Filter Employees \n");
             var option = Console.ReadLine();
@@ -248,17 +248,17 @@ namespace EmployeeProject
         {
             Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
             var option = Console.ReadLine();
-            var employees = new List<Employee>();
+            //var employees = new List<Employee>();
             switch (option)
             {
                 case "1":
-                    employees = _employeeController.FilterEmployees(EmployeeType.Manager);
+                    employees = _employeeController.FilterEmployees(EmployeeType.Manager, employees);
                     break;
                 case "2":
-                    employees = _employeeController.FilterEmployees(EmployeeType.Engineer);
+                    employees = _employeeController.FilterEmployees(EmployeeType.Engineer, employees);
                     break;
                 case "3":
-                    employees = _employeeController.FilterEmployees(EmployeeType.Intern);
+                    employees = _employeeController.FilterEmployees(EmployeeType.Intern, employees);
                     break;
                 default:
                     ChooseFilterEmployeesOption();
