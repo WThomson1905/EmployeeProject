@@ -232,23 +232,23 @@ namespace EmployeeProject
         {
             Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
             var option = Console.ReadLine();
-            //var employees = new List<Employee>();
+            var filteredEmployees = new List<Employee>();
             switch (option)
             {
                 case "1":
-                    employeesFilter = _employeeController.FilterEmployees(EmployeeType.Manager, employees);
+                    filteredEmployees = _employeeController.FilterEmployees(EmployeeType.Manager, employees);
                     break;
                 case "2":
-                    employeesFilter = _employeeController.FilterEmployees(EmployeeType.Engineer, employees);
+                    filteredEmployees = _employeeController.FilterEmployees(EmployeeType.Engineer, employees);
                     break;
                 case "3":
-                    employeesFilter = _employeeController.FilterEmployees(EmployeeType.Intern, employees);
+                    filteredEmployees = _employeeController.FilterEmployees(EmployeeType.Intern, employees);
                     break;
                 default:
                     ChooseFilterEmployeesOption();
                     break;
             }
-            return employees;
+            return filteredEmployees;
         }
 
 
