@@ -160,11 +160,14 @@ namespace EmployeeProject
             {
                 return false;
             }
-            if (currentEmployee.Position == EmployeeType.Engineer && selectedEmployeeType == EmployeeType.Intern)
+            else if (currentEmployee.Position == EmployeeType.Engineer && selectedEmployeeType == EmployeeType.Intern)
             {
                 return false;
             }
-            return true;
+            else
+            {
+                return true;
+            }
         }
 
         //public int ChangeEmployeePosition(EmployeeType currentEmployeeType, EmployeeType selectedEmployeeType)
@@ -274,10 +277,16 @@ namespace EmployeeProject
 
         public List<Employee> DeserizalizeEmployeeJson(string path)
         {
-            var filePath = new StreamReader(path);
-            var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
-            filePath.Close();
-            return employees;
+            try
+            {
+                var filePath = new StreamReader(path);
+                var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
+                filePath.Close();
+                return employees;
+            } catch (JsonException ex)
+            {
+                throw new JsonException();  
+            }
         }
     }
 
