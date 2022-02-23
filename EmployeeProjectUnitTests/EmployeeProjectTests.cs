@@ -375,40 +375,32 @@ namespace EmployeeProjectUnitTests
         }
 
 
-        //[TestMethod]
-        //public void UpdateEmployeeAsync_ChangeEngineerToIntern_ReturnFalse()
-        //{
-        //    // Arrange
-        //    EmployeeType employeeType = EmployeeType.Intern;
-        //    var employeeId = 2; // Engineer
-        //    bool changedSuccessfully;
+        [TestMethod]
+        public void UpdateEmployeeAsync_ChangeEngineerToIntern_ReturnFalse()
+        {
+            // Arrange
+            EmployeeType employeeType = EmployeeType.Intern;
+            var employeeId = 2; // Engineer
 
-        //    // Act 
-        //    if (controller.UpdateEmployeeAsync(employeeId, employeeType).Result)
-        //    {
-        //        changedSuccessfully = true;
-        //    }
-        //    else
-        //    {
-        //        changedSuccessfully = false;
-        //    }
+            // Act 
+      
 
-        //    // Assert
-        //    Assert.IsFalse(changedSuccessfully);
-        //}
+            // Assert
+            Assert.IsFalse(controller.ValidChangeEmployeePositionRequest(employeeId, employeeType));
+        }
 
         [TestMethod]
         public void UpdateEmployeeAsync_ChangeManagerToIntern_ReturnFalse()
         {
             // Arrange
             EmployeeType employeeType = EmployeeType.Intern;
-            var employeeId = 1; // Manager
+            var employeeId = 8; // Manager
 
             // Act
-            bool valid = controller.ValidChangeEmployeePositionRequest(employeeId, employeeType);
+            //bool valid = controller.ValidChangeEmployeePositionRequest(employeeId, employeeType);
 
             // Assert
-            Assert.IsFalse(valid);
+            Assert.IsFalse(controller.ValidChangeEmployeePositionRequest(employeeId, employeeType));
         }
     }
 }

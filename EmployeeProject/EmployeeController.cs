@@ -78,6 +78,14 @@ namespace EmployeeProject
                         Surname = "Smith",
                         Email = "js@g.com",
                         Position = EmployeeType.Intern
+                    },
+                    new Employee()
+                    {
+                        EmployeeId = 8,
+                        Forename = "Tommy",
+                        Surname = "Cruisey",
+                        Email = "tc@g.com",
+                        Position = EmployeeType.Manager
                     }
                 };
                 await SerializeToFile(employees, path);
