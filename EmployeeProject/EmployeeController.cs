@@ -124,7 +124,7 @@ namespace EmployeeProject
         }
 
 
-        public async Task UpdateEmployeeAsync(int employeeId, EmployeeType selectedEmployeeType)
+        public async Task<bool> UpdateEmployeeAsync(int employeeId, EmployeeType selectedEmployeeType)
         {
             List<Employee> employees = DeserizalizeEmployeeJson(path);
             int currentId;
@@ -140,9 +140,31 @@ namespace EmployeeProject
                 }
             }
 
-            if(validJsonToSchema)
+            if (validJsonToSchema)
+            {
                 await SerializeToFile(employees, path);
-        
+                return true;
+            }
+            return false;
+        }
+
+        public bool ValidChangeEmployeePositionRequest(int currentEmployeeId, EmployeeType selectedEmployeeType)
+        {
+            // business logic for checking whether you can change emp position
+            // manager be changed to intern
+            // engineer be changed to intern
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
+            Employee currentEmployee = employees.First(e => e.EmployeeId == currentEmployeeId);
+
+            if (currentEmployee.Position == EmployeeType.Manager && selectedEmployeeType == EmployeeType.Intern)
+            {
+                return false;
+            }
+            if (currentEmployee.Position == EmployeeType.Engineer && selectedEmployeeType == EmployeeType.Intern)
+            {
+                return false;
+            }
+            return true;
         }
 
         //public int ChangeEmployeePosition(EmployeeType currentEmployeeType, EmployeeType selectedEmployeeType)
@@ -193,9 +215,9 @@ namespace EmployeeProject
         //}
 
         //deletes employee from the db
-        
-        
-        public async Task<List<Employee>> DeleteEmployeeMK2(int employeeId, List<Employee> employees)
+
+
+        public async Task<List<Employee>> DeleteEmployee(int employeeId, List<Employee> employees)
         {
 
             int currentId;

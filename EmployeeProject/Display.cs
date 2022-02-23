@@ -148,7 +148,7 @@ namespace EmployeeProject
                     Console.WriteLine("count of items before deleting:{0}", employees.Count);
                     if (employees.Any(e => e.EmployeeId == Convert.ToInt32(chosenId)))
                     {
-                        employees = _employeeController.DeleteEmployeeMK2(Convert.ToInt32(chosenId), employees).Result;
+                        employees = _employeeController.DeleteEmployee(Convert.ToInt32(chosenId), employees).Result;
                         Console.WriteLine("count of items after deleting:{0}", employees.Count);
                     }
                     else
@@ -173,11 +173,14 @@ namespace EmployeeProject
 
 
                     // validateInput
-                    bool valid = ValidChangeEmployeePositionRequest(Convert.ToInt32(chooseId), (EmployeeType)choosePosition);
-                    // if (valid) update employee
+                    bool valid = _employeeController.ValidChangeEmployeePositionRequest(Convert.ToInt32(chooseId), (EmployeeType)choosePosition);
+
                     if (valid)
                     {
                         _employeeController.UpdateEmployeeAsync(Convert.ToInt32(chooseId), (EmployeeType)choosePosition);
+                    } else
+                    {
+                        Console.WriteLine("Can't change current user to intern!");
 
                     }
                     StartApp();
@@ -221,26 +224,7 @@ namespace EmployeeProject
         }
 
 
-        public bool ValidChangeEmployeePositionRequest(int currentEmployeeId, EmployeeType selectedEmployeeType)
-        {
-            // business logic for checking whether you can change emp position
-            // manager be changed to intern
-            // engineer be changed to intern
-
-            Employee currentEmployee = employees.First(e => e.EmployeeId == currentEmployeeId);
-
-            if (currentEmployee.Position == EmployeeType.Manager && selectedEmployeeType == EmployeeType.Intern)
-            {
-                Console.WriteLine("Can't change manager to intern!");
-                return false;
-            }
-            if (currentEmployee.Position == EmployeeType.Engineer && selectedEmployeeType == EmployeeType.Intern)
-            {
-                Console.WriteLine("Can't change Engineer to intern!");
-                return false;
-            }
-            return true;
-        }
+     
 
 
 
@@ -248,23 +232,23 @@ namespace EmployeeProject
         {
             Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
             var option = Console.ReadLine();
-            //var employees = new List<Employee>();
+            var filteredEmployees = new List<Employee>();
             switch (option)
             {
                 case "1":
-                    employees = _employeeController.FilterEmployees(EmployeeType.Manager, employees);
+                    filteredEmployees = _employeeController.FilterEmployees(EmployeeType.Manager, employees);
                     break;
                 case "2":
-                    employees = _employeeController.FilterEmployees(EmployeeType.Engineer, employees);
+                    filteredEmployees = _employeeController.FilterEmployees(EmployeeType.Engineer, employees);
                     break;
                 case "3":
-                    employees = _employeeController.FilterEmployees(EmployeeType.Intern, employees);
+                    filteredEmployees = _employeeController.FilterEmployees(EmployeeType.Intern, employees);
                     break;
                 default:
                     ChooseFilterEmployeesOption();
                     break;
             }
-            return employees;
+            return filteredEmployees;
         }
 
 
