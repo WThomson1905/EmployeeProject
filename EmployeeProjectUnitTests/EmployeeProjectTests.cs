@@ -197,7 +197,89 @@ namespace EmployeeProjectUnitTests
             CollectionAssert.AreNotEqual(allEmployees, employees);
         }
 
+        [TestMethod]
+        public void FilterEmployees_FilterManagers_ShouldShowManagers()
+        {
+            // Arrange
+            EmployeeType employeeType = EmployeeType.Manager;
+            List<Employee> justManagerEmployees = new List<Employee>
+            {
+                new Employee()
+                {
+                    EmployeeId = 1,
+                    Forename = "Tom",
+                    Surname = "Cruise",
+                    Email = "tc@g.com",
+                    Position = EmployeeType.Manager
+                }
+            };
+            List<Employee> allEmployees = new List<Employee>
+            {
+                new Employee()
+                {
+                    EmployeeId = 1,
+                    Forename = "Tom",
+                    Surname = "Cruise",
+                    Email = "tc@g.com",
+                    Position = EmployeeType.Manager
+                },
+                new Employee()
+                {
+                    EmployeeId = 2,
+                    Forename = "Brad",
+                    Surname = "Pitt",
+                    Email = "bp@g.com",
+                    Position = EmployeeType.Engineer
+                },
+                new Employee()
+                {
+                    EmployeeId = 3,
+                    Forename = "Bill",
+                    Surname = "Sandler",
+                    Email = "bs@g.com",
+                    Position = EmployeeType.Intern
+                },
+                new Employee()
+                {
+                    EmployeeId = 4,
+                    Forename = "Jack",
+                    Surname = "Sheppard",
+                    Email = "js@g.com",
+                    Position = EmployeeType.Engineer
+                },
+                new Employee()
+                {
+                    EmployeeId = 5,
+                    Forename = "John",
+                    Surname = "Locke",
+                    Email = "jl@g.com",
+                    Position = EmployeeType.Engineer
+                },
+                new Employee()
+                {
+                    EmployeeId = 6,
+                    Forename = "Kate",
+                    Surname = "Auston",
+                    Email = "ka@g.com",
+                    Position = EmployeeType.Engineer
+                },
+                new Employee()
+                {
+                    EmployeeId = 7,
+                    Forename = "Ahhhhhhhh",
+                    Surname = "Smith",
+                    Email = "js@g.com",
+                    Position = EmployeeType.Intern
+                }
+            };
 
+            // Act
+            List<Employee> listOfFilteredManagers = controller.FilterEmployees(employeeType, allEmployees);
+
+            // Assert
+            Assert.AreEqual(listOfFilteredManagers, justManagerEmployees);
+
+        }
 
     }
 }
