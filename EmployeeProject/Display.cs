@@ -86,17 +86,13 @@ namespace EmployeeProject
                 };
                 _employeeController.SerializeToFile(employees, path);
             }
-            else
-            {
-                employees = _employeeController.DeserizalizeEmployeeJson(path);
-            }
 
             StartApp();
         }
 
         public void StartApp()
         {
-            //employees = _employeeController.DeserizalizeEmployeeJson(path);
+            employees = _employeeController.DeserizalizeEmployeeJson(path);
 
             Console.WriteLine("Choose Your Option: 1 - Display All Employees, 2 - Add Employee, 3 - Delete Employee, 4 - Update Position, 5 - Filter Employees \n");
             var option = Console.ReadLine();
