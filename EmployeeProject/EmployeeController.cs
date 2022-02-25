@@ -90,10 +90,6 @@ namespace EmployeeProject
                 };
                 await SerializeToFile(employees, path);
             }
-            else
-            {
-                employees = DeserizalizeEmployeeJson(path);
-            }
 
             return employees;
         }
@@ -103,7 +99,7 @@ namespace EmployeeProject
 
         public List<Employee> FilterEmployees(EmployeeType position, List<Employee> employees)
         {
-            //List<Employee> employees = DeserizalizeEmployeeJson(path);
+            List<Employee> employees = DeserizalizeEmployeeJson(path);
             List<Employee> employeesFileteredByPosition = new List<Employee>();
 
             foreach (Employee employee in employees)
