@@ -4,13 +4,16 @@
     "type": "object",
     "properties": {
       "employeeId": {
-        "type": "integer"
+        "type": "integer",
+          "minimum": 0
       },
       "forename": {
-        "type": "string"
+        "type": "string",
+          "required": ["forename"]
       },
       "surname": {
-        "type": "string"
+        "type": "string",
+        "required": [ "surname" ]
       },
       "email": {
         "type": "string",

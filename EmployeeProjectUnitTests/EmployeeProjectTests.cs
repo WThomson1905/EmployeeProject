@@ -124,12 +124,73 @@ namespace EmployeeProjectUnitTests
         }
 
         [TestMethod]
+        public void AddEmployee_ForenameNotValid_ShouldNotAdd()
+        {
+            //Arrange - Invalid Forename
+            Employee employee = new Employee()
+            {
+                EmployeeId = 1000,
+                Forename = "",
+                Surname = "Nye",
+                Email = "bn@gmail.com",
+                Position = 0
+            };
+
+            //Act
+            bool result = controller.AddEmployee(employee, allEmployees).Result;
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void AddEmployee_SurnameNotValid_ShouldNotAdd()
+        {
+            //Arrange - Invalid Forename
+            Employee employee = new Employee()
+            {
+                EmployeeId = 1000,
+                Forename = "Bill",
+                Surname = "",
+                Email = "bn@gmail.com",
+                Position = 0
+            };
+
+            //Act
+            bool result = controller.AddEmployee(employee, allEmployees).Result;
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void AddEmployee_IdNotValid_ShouldNotAdd()
+        {
+            // Arrange - invalid id
+            Employee employee = new Employee()
+            {
+                EmployeeId = -1,
+                Forename = "Bill",
+                Surname = "Nye",
+                Email = "bn@gmail.com",
+                Position = 0
+            };
+
+
+            // Act 
+            bool result = controller.AddEmployee(employee, allEmployees).Result;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
         public void AddEmployee_PositionNotValid_ShouldNotAdd()
         {
             // Arrange - invalid email
             Employee employee = new Employee()
             {
-                EmployeeId = 101,
+                EmployeeId = 789,
                 Forename = "Bill",
                 Surname = "Nye",
                 Email = "bn@gmail.com",
@@ -143,8 +204,6 @@ namespace EmployeeProjectUnitTests
             // Assert
             Assert.IsFalse(result);
         }
-
-
 
         [TestMethod]
         public void DeleteEmployee_DeletingNewEmployee_ShouldNotMatch()
@@ -209,7 +268,7 @@ namespace EmployeeProjectUnitTests
                     Position = EmployeeType.Intern
                 }
             };
-            var employeeId = 1;
+            var employeeId = 2;
 
             // Act 
             List<Employee> employees = controller.DeleteEmployee(employeeId, toUpdateEmployees).Result;
@@ -299,7 +358,7 @@ namespace EmployeeProjectUnitTests
         public void DeleteEmployee_DeletingNonExistentEmployee_ShouldNotFind()
         {
             // Arrange
-            string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
+            string path = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
             List<Employee> allEmployees = controller.DeserizalizeEmployeeJson(path);
             var employeeId = 100000;
             bool couldFindId = true;
@@ -324,7 +383,7 @@ namespace EmployeeProjectUnitTests
         public void DeserizalizeEmployeeJson_DeserizalizeEmployeeJson_ShouldNotFind()
         {
             // Arrange
-            string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesInvalid.json";
+            string path = @"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesInvalid.json";
 
 
             // Act 
@@ -335,41 +394,5 @@ namespace EmployeeProjectUnitTests
             Assert.IsNotNull(deserialized);
         }
 
-        //[TestMethod]
-        //public void UpdateEmployeeAsync_ChangeEngineerToIntern_ReturnFalse()
-        //{
-        //    // Arrange
-        //    EmployeeType employeeType = EmployeeType.Intern;
-        //    var employeeId = 2; // Engineer
-        //    bool changedSuccessfully;
-
-        //    // Act 
-        //    if (controller.UpdateEmployeeAsync(employeeId, employeeType).Result)
-        //    {
-        //        changedSuccessfully = true;
-        //    }
-        //    else
-        //    {
-        //        changedSuccessfully = false;
-        //    }
-
-        //    // Assert
-        //    Assert.IsFalse(changedSuccessfully);
-        //}
-
-        //[TestMethod]
-        //public void UpdateEmployeeAsync_ChangeManagerToIntern_ReturnFalse()
-        //{
-        //    // Arrange
-        //    EmployeeType employeeType = EmployeeType.Intern;
-        //    var employeeId = 1; // Manager
-        //    Display display = new Display();
-
-        //    // Act
-        //    bool valid = display.ValidChangeEmployeePositionRequest(employeeId, employeeType);
-
-        //    // Assert
-        //    Assert.IsFalse(valid);
-        //}
     }
 }
