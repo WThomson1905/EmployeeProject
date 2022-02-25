@@ -9,8 +9,8 @@ namespace EmployeeProject
     public class Display
     {
 
-        public static string path = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
-        public static string schemaPath = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\schema.json";
+        public static string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
+        public static string schemaPath = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\schema.json";
         
         
         private EmployeeController _employeeController = new EmployeeController();

@@ -9,11 +9,11 @@
       },
       "forename": {
         "type": "string",
-          "required": ["forename"]
+        "minLength": 1
       },
       "surname": {
         "type": "string",
-        "required": [ "surname" ]
+        "minLength": 1
       },
       "email": {
         "type": "string",

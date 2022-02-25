@@ -80,6 +80,14 @@ namespace EmployeeProjectUnitTests
                 Surname = "Smith",
                 Email = "js@g.com",
                 Position = EmployeeType.Intern
+            },
+            new Employee()
+            {
+                EmployeeId = 8,
+                Forename = "Ted",
+                Surname = "Mosby",
+                Email = "tm@g.com",
+                Position = EmployeeType.Manager
             }
         };
         EmployeeController controller = new EmployeeController();
@@ -131,7 +139,6 @@ namespace EmployeeProjectUnitTests
             Employee employee = new Employee()
             {
                 EmployeeId = 1000,
-                Forename = "",
                 Surname = "Nye",
                 Email = "bn@gmail.com",
                 Position = 0
@@ -141,7 +148,7 @@ namespace EmployeeProjectUnitTests
             bool result = controller.AddEmployee(employee, allEmployees).Result;
 
             //Assert
-            Assert.IsFalse(result);
+            Assert.IsFalse(controller.AddEmployee(employee, allEmployees).Result);
         }
 
         [TestMethod]
@@ -267,6 +274,14 @@ namespace EmployeeProjectUnitTests
                     Surname = "Smith",
                     Email = "js@g.com",
                     Position = EmployeeType.Intern
+                },
+                new Employee()
+                {
+                    EmployeeId = 8,
+                    Forename = "Ted",
+                    Surname = "Mosby",
+                    Email = "tm@g.com",
+                    Position = EmployeeType.Manager
                 }
             };
             var employeeId = 2;
@@ -340,6 +355,14 @@ namespace EmployeeProjectUnitTests
                     Surname = "Smith",
                     Email = "js@g.com",
                     Position = EmployeeType.Intern
+                },
+                new Employee()
+                {
+                    EmployeeId = 8,
+                    Forename = "Ted",
+                    Surname = "Mosby",
+                    Email = "tm@g.com",
+                    Position = EmployeeType.Manager
                 }
             };
             var employeeId = 1;
@@ -359,7 +382,7 @@ namespace EmployeeProjectUnitTests
         public void DeleteEmployee_DeletingNonExistentEmployee_ShouldNotFind()
         {
             // Arrange
-            string path = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
+            string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
             List<Employee> allEmployees = controller.DeserizalizeEmployeeJson(path);
             var employeeId = 100000;
             bool couldFindId = true;
@@ -439,7 +462,7 @@ namespace EmployeeProjectUnitTests
         {
             // Arrange
             EmployeeType employeeType = EmployeeType.Intern;
-            var employeeId = 2; // Engineer
+            var employeeId = 4; // Engineer
 
             // Act 
       
@@ -453,7 +476,7 @@ namespace EmployeeProjectUnitTests
         {
             // Arrange
             EmployeeType employeeType = EmployeeType.Intern;
-            var employeeId = 8; // Manager
+            var employeeId = 1; // Manager
 
             // Act
             //bool valid = controller.ValidChangeEmployeePositionRequest(employeeId, employeeType);

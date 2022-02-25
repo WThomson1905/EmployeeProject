@@ -12,8 +12,8 @@ namespace EmployeeProject
     public class EmployeeController
     {
 
-        public static string path = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
-        public static string schemaPath = "C:\\Users\\Aley\\source\\repos\\EmployeeProject\\EmployeeProject\\schema.json";
+        public static string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
+        public static string schemaPath = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\schema.json";
 
 
         public async Task<List<Employee>> DefineEmployees()
