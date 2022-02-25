@@ -4,6 +4,8 @@
   "items": [
     {
       "type": "object",
+
+
       "properties": {
         "employeeId": {
           "type": "integer",
@@ -27,17 +29,9 @@
           "minimum": 0,
           "maximum": 2
         }
-      },
-      "required": [
-        "employeeId",
-        "forename",
-        "surname",
-        "email",
-        "position"
-      ]
-
-
+      }
 
     }
-  ]
+  ],
+  "uniqueItems": true
 }

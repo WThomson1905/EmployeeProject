@@ -121,8 +121,8 @@ namespace EmployeeProject
         public async Task<bool> AddEmployee(Employee employee, List<Employee> employees)
         {
             //Write json data
+            bool validJsonToSchema = await CheckJsonWithSchema(employee, schemaPath);
             employees.Add(employee);
-            bool validJsonToSchema = await CheckJsonWithSchema(employees, schemaPath);
             if (validJsonToSchema)
             {
                 await SerializeToFile(employees, path);
@@ -144,9 +144,9 @@ namespace EmployeeProject
                 if (currentId == employeeId)
                 {
                     employee.Position = selectedEmployeeType;
+                    validJsonToSchema = CheckJsonWithSchema(employee, schemaPath).Result;
                 }
             }
-            validJsonToSchema = CheckJsonWithSchema(employees, schemaPath).Result;
 
             if (validJsonToSchema)
             {
@@ -178,54 +178,7 @@ namespace EmployeeProject
             }
         }
 
-        //public int ChangeEmployeePosition(EmployeeType currentEmployeeType, EmployeeType selectedEmployeeType)
-        //{
-        //    // business logic for checking whether you can change emp position
-        //    // manager be changed to intern
-        //    // engineer be changed to intern
-
-        //    if (currentEmployeeType == EmployeeType.Manager && selectedEmployeeType == EmployeeType.Intern)
-        //    {
-        //        return 1;
-        //        ///Display.StartApp();
-        //    }
-        //    if (currentEmployeeType == EmployeeType.Engineer && selectedEmployeeType == EmployeeType.Intern)
-        //    {
-        //        return 2;
-        //        ///Display.StartApp();
-        //    }
-        //    return 0;
-        //}
-
-
-
-        //public void UpdateEmployee(int employeeId)
-        //{
-        //    // find employee by id
-        //    // change option to engineer by default for now! 
-
-        //    var filePath = new StreamReader(path);
-        //    var jsonString = filePath.ReadToEnd();
-
-        //    using (JsonDocument document = JsonDocument.Parse(jsonString))
-        //    {
-
-        //        JsonElement root = document.RootElement;
-
-        //        foreach (JsonElement employee in root.EnumerateArray())
-        //        {
-        //            int currentId = employee.GetProperty("employeeId").GetInt32();
-
-        //            if (currentId == employeeId)
-        //            {
-        //                JsonNode? positionNode = JsonNode.Parse(employee.ToString());
-        //                //Console.WriteLine(employee.ToString());
-        //            }
-        //        }
-        //    }
-        //}
-
-        //deletes employee from the db
+       
 
 
         public async Task<List<Employee>> DeleteEmployee(int employeeId, List<Employee> employees)
@@ -260,8 +213,11 @@ namespace EmployeeProject
 
 
 
-        private async Task<bool> CheckJsonWithSchema(List<Employee> employees, string jsonSchemaPath)
+        private async Task<bool> CheckJsonWithSchema(Employee employee, string jsonSchemaPath)
         {
+            List<Employee> employees = new List<Employee>
+                { employee };
+                
             var jsonSchema = await JsonSchema.FromFileAsync(jsonSchemaPath);
             var jsonString = JsonSerializer.Serialize(employees);
             var errors = jsonSchema.Validate(jsonString);
@@ -299,3 +255,5 @@ namespace EmployeeProject
     }
 
 }
+
+
