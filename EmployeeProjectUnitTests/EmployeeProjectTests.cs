@@ -3,6 +3,7 @@ using EmployeeProject;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Text.Json;
 
 namespace EmployeeProjectUnitTests
 {
@@ -380,19 +381,85 @@ namespace EmployeeProjectUnitTests
 
 
         [TestMethod]
-        public void DeserizalizeEmployeeJson_DeserizalizeEmployeeJson_ShouldNotFind()
+        public void DeserizalizeEmployeeJson_DeserizalizeEmployeeJson_ReturnListOfEmployees()
         {
             // Arrange
-            string path = @"C:\Users\Aley\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesInvalid.json";
-
+            string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesMultipleObjects.json";
 
             // Act 
             List<Employee> deserialized = controller.DeserizalizeEmployeeJson(path);
 
-      
             // Assert
             Assert.IsNotNull(deserialized);
         }
 
+        [TestMethod]
+        public void DeserizalizeEmployeeJson_DeserizalizeEmployeeJson_ReturnObject()
+        {
+            // Arrange
+            string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesoneValue.json";
+
+            // Act 
+            List<Employee> deserialized = controller.DeserizalizeEmployeeJson(path);
+
+            // Assert
+            Assert.IsNotNull(deserialized);
+        }
+
+        [TestMethod]
+        public void DeserizalizeEmployeeJson_DeserizalizeEmployeeJson_ThrowException()
+        {
+            // Arrange
+            string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesHangingComma.json";
+
+            // Act 
+            //var deserialized = controller.DeserizalizeEmployeeJson(path);
+
+            // Assert
+            Assert.ThrowsException<JsonException>(() => controller.DeserizalizeEmployeeJson(path));
+        }
+
+
+        [TestMethod]
+        public void DeserizalizeEmployeeJson_DeserizalizeInvalidJson_ThrowException()
+        {
+            // Arrange
+            string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesMultipleObjectsNonArray.json";
+
+            // Act 
+            //var deserialized = controller.DeserizalizeEmployeeJson(path);
+
+            // Assert
+            Assert.ThrowsException<JsonException>(() => controller.DeserizalizeEmployeeJson(path));
+        }
+
+
+        [TestMethod]
+        public void UpdateEmployeeAsync_ChangeEngineerToIntern_ReturnFalse()
+        {
+            // Arrange
+            EmployeeType employeeType = EmployeeType.Intern;
+            var employeeId = 2; // Engineer
+
+            // Act 
+      
+
+            // Assert
+            Assert.IsFalse(controller.ValidChangeEmployeePositionRequest(employeeId, employeeType));
+        }
+
+        [TestMethod]
+        public void UpdateEmployeeAsync_ChangeManagerToIntern_ReturnFalse()
+        {
+            // Arrange
+            EmployeeType employeeType = EmployeeType.Intern;
+            var employeeId = 8; // Manager
+
+            // Act
+            //bool valid = controller.ValidChangeEmployeePositionRequest(employeeId, employeeType);
+
+            // Assert
+            Assert.IsFalse(controller.ValidChangeEmployeePositionRequest(employeeId, employeeType));
+        }
     }
 }

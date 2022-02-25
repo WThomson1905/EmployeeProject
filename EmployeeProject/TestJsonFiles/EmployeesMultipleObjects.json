@@ -32,14 +32,14 @@
     "employeeId": 12,
     "forename": "1221",
     "surname": "122",
-    "email": "122",
+    "email": "122@gmail.com",
     "position": 0
   },
   {
     "employeeId": 122,
     "forename": "12",
     "surname": "12",
-    "email": "12",
+    "email": "12@gmail.com",
     "position": 1
   }
 ]
