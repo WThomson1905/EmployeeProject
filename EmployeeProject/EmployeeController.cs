@@ -121,10 +121,10 @@ namespace EmployeeProject
         public async Task<bool> AddEmployee(Employee employee, List<Employee> employees)
         {
             //Write json data
-            bool validJsonToSchema = await CheckJsonWithSchema(employee, schemaPath);
+            employees.Add(employee);
+            bool validJsonToSchema = await CheckJsonWithSchema(employees, schemaPath);
             if (validJsonToSchema)
             {
-                employees.Add(employee);
                 await SerializeToFile(employees, path);
                 return true;
             }
@@ -144,9 +144,9 @@ namespace EmployeeProject
                 if (currentId == employeeId)
                 {
                     employee.Position = selectedEmployeeType;
-                    validJsonToSchema = CheckJsonWithSchema(employee, schemaPath).Result;
                 }
             }
+            validJsonToSchema = CheckJsonWithSchema(employees, schemaPath).Result;
 
             if (validJsonToSchema)
             {
@@ -260,10 +260,10 @@ namespace EmployeeProject
 
 
 
-        private async Task<bool> CheckJsonWithSchema(Employee employee, string jsonSchemaPath)
+        private async Task<bool> CheckJsonWithSchema(List<Employee> employees, string jsonSchemaPath)
         {
             var jsonSchema = await JsonSchema.FromFileAsync(jsonSchemaPath);
-            var jsonString = JsonSerializer.Serialize(employee);
+            var jsonString = JsonSerializer.Serialize(employees);
             var errors = jsonSchema.Validate(jsonString);
 
             if(errors.Count != 0)
