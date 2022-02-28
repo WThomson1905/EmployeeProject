@@ -14,9 +14,9 @@ namespace EmployeeProject
         
         
         private EmployeeController _employeeController = new EmployeeController();
-        private List<Employee> employees;
-        private List<Employee> employeesFilter;
-        private Employee employee;
+        private List<EmployeeBase> employees;
+        private List<EmployeeBase> employeesFilter;
+        private EmployeeBase employee;
 
 
 
@@ -25,9 +25,9 @@ namespace EmployeeProject
 
             if (new FileInfo(path).Length == 0)
             {
-                employees = new List<Employee>
+                employees = new List<EmployeeBase>
                 {
-                    new Employee()
+                    new Manager()
                     {
                         EmployeeId = 1,
                         Forename = "Tom",
@@ -35,7 +35,7 @@ namespace EmployeeProject
                         Email = "tc@g.com",
                         Position = EmployeeType.Manager
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 2,
                         Forename = "Brad",
@@ -43,7 +43,7 @@ namespace EmployeeProject
                         Email = "bp@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Intern()
                     {
                         EmployeeId = 3,
                         Forename = "Bill",
@@ -51,7 +51,7 @@ namespace EmployeeProject
                         Email = "bs@g.com",
                         Position = EmployeeType.Intern
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 4,
                         Forename = "Jack",
@@ -59,7 +59,7 @@ namespace EmployeeProject
                         Email = "js@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 5,
                         Forename = "John",
@@ -67,7 +67,7 @@ namespace EmployeeProject
                         Email = "jl@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 6,
                         Forename = "Kate",
@@ -75,7 +75,7 @@ namespace EmployeeProject
                         Email = "ka@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Intern()
                     {
                         EmployeeId = 7,
                         Forename = "Ahhhhhhhh",
@@ -84,6 +84,13 @@ namespace EmployeeProject
                         Position = EmployeeType.Intern
                     }
                 };
+
+
+
+
+
+
+
                 _employeeController.SerializeToFile(employees, path);
             }
 
@@ -105,7 +112,7 @@ namespace EmployeeProject
                     break;
 
                 case "2":
-                    employee = new Employee();
+                    employee = new EmployeeBase();
 
 
                     Console.WriteLine("Opt2: Add Employee");
@@ -198,16 +205,22 @@ namespace EmployeeProject
 
 
 
-        public void DisplayAllEmployees(List<Employee> listOfEmployees)
+        public void DisplayAllEmployees(List<EmployeeBase> listOfEmployees)
         {
             if (listOfEmployees != null)
             {
+
+
                 foreach (var employee in listOfEmployees)
                 {
+                    // if (employee.GetType().Equals(typeof(Manager))) { }
                     Console.WriteLine("Employee Id: " + employee.EmployeeId);
                     Console.WriteLine("Full Name: " + employee.Forename + " " + employee.Surname);
                     Console.WriteLine("Email: " + employee.Email);
                     Console.WriteLine("Position: " + employee.Position);
+
+                    if (employee.Position.Equals(EmployeeType.Manager))
+                        employee.DoWorkMan();
                     Console.WriteLine();
                 }
             }
@@ -224,11 +237,11 @@ namespace EmployeeProject
 
 
 
-        public List<Employee> ChooseFilterEmployeesOption()
+        public List<EmployeeBase> ChooseFilterEmployeesOption()
         {
             Console.WriteLine("Choose position type: 1 - Manager, 2 - Engineer, 3 - Intern \n");
             var option = Console.ReadLine();
-            var filteredEmployees = new List<Employee>();
+            var filteredEmployees = new List<EmployeeBase>();
             switch (option)
             {
                 case "1":

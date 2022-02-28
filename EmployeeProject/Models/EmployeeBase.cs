@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace EmployeeProject
 {
 
-    public class Employee : IEmployee
+    abstract class EmployeeBase 
     {
 
-        public Employee()
+        public EmployeeBase()
         {
             EmployeeId = 0;
             Forename = "";
@@ -23,7 +23,7 @@ namespace EmployeeProject
             Position = new EmployeeType();
         }
 
-        public Employee(int employeeId, string forename, string surname, string email, EmployeeType position)
+        public EmployeeBase(int employeeId, string forename, string surname, string email, EmployeeType position)
         {
             EmployeeId = employeeId;
             Forename = forename;
@@ -53,6 +53,9 @@ namespace EmployeeProject
         [JsonInclude]
         public EmployeeType Position { get; set; }
 
+
+
+        public abstract void DoWork(); 
 
     }
 }

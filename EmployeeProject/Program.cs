@@ -12,6 +12,18 @@ namespace EmployeeProject
 
         static void Main(string[] args)
         {
+            EmployeeBase employee = new Manager()
+            {
+                EmployeeId = 10001,
+                Forename = "Billy",
+                Surname = "Bob",
+                Email = "bb@b.bom",
+                Position = 0
+            }; 
+
+            employee.DoWork();
+
+
             Display display = new Display();
 
         }

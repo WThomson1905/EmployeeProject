@@ -23,9 +23,9 @@ namespace EmployeeProjectUnitTests
 
 
         // Initial Data 
-        List<Employee> allEmployees = new List<Employee>
+        List<EmployeeBase> allEmployees = new List<EmployeeBase>
                 {
-                    new Employee()
+                    new Manager()
                     {
                         EmployeeId = 1,
                         Forename = "Tom",
@@ -33,7 +33,7 @@ namespace EmployeeProjectUnitTests
                         Email = "tc@g.com",
                         Position = EmployeeType.Manager
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 2,
                         Forename = "Brad",
@@ -41,7 +41,7 @@ namespace EmployeeProjectUnitTests
                         Email = "bp@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Intern()
                     {
                         EmployeeId = 3,
                         Forename = "Bill",
@@ -49,7 +49,7 @@ namespace EmployeeProjectUnitTests
                         Email = "bs@g.com",
                         Position = EmployeeType.Intern
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 4,
                         Forename = "Jack",
@@ -57,7 +57,7 @@ namespace EmployeeProjectUnitTests
                         Email = "js@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 5,
                         Forename = "John",
@@ -65,7 +65,7 @@ namespace EmployeeProjectUnitTests
                         Email = "jl@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 6,
                         Forename = "Kate",
@@ -73,7 +73,7 @@ namespace EmployeeProjectUnitTests
                         Email = "ka@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Intern()
                     {
                         EmployeeId = 7,
                         Forename = "Ahhhhhhhh",
@@ -89,7 +89,7 @@ namespace EmployeeProjectUnitTests
         public void AddEmployee_AddingNewValidEmployee_AddNewValue()
         {
             // Arrange
-            Employee employee = new Employee()
+            EmployeeBase employee = new EmployeeBase()
             {
                 EmployeeId = 100,
                 Forename = "John",
@@ -109,7 +109,7 @@ namespace EmployeeProjectUnitTests
         public void AddEmployee_EmailNotValid_ShouldNotAdd()
         {
             // Arrange - invalid email
-            Employee employee = new Employee()
+            EmployeeBase employee = new EmployeeBase()
             {
                 EmployeeId = 101,
                 Forename = "Bill",
@@ -129,7 +129,7 @@ namespace EmployeeProjectUnitTests
         public void AddEmployee_ForenameNotValid_ShouldNotAdd()
         {
             //Arrange - Invalid Forename
-            Employee employee = new Employee()
+            EmployeeBase employee = new EmployeeBase()
             {
                 EmployeeId = 1000,
                 Surname = "Nye",
@@ -148,7 +148,7 @@ namespace EmployeeProjectUnitTests
         public void AddEmployee_SurnameNotValid_ShouldNotAdd()
         {
             //Arrange - Invalid Forename
-            Employee employee = new Employee()
+            EmployeeBase employee = new EmployeeBase()
             {
                 EmployeeId = 1000,
                 Forename = "Bill",
@@ -168,7 +168,7 @@ namespace EmployeeProjectUnitTests
         public void AddEmployee_IdNotValid_ShouldNotAdd()
         {
             // Arrange - invalid id
-            Employee employee = new Employee()
+            EmployeeBase employee = new EmployeeBase()
             {
                 EmployeeId = -1,
                 Forename = "Bill",
@@ -189,7 +189,7 @@ namespace EmployeeProjectUnitTests
         public void AddEmployee_PositionNotValid_ShouldNotAdd()
         {
             // Arrange - invalid email
-            Employee employee = new Employee()
+            EmployeeBase employee = new EmployeeBase()
             {
                 EmployeeId = 789,
                 Forename = "Bill",
@@ -210,9 +210,9 @@ namespace EmployeeProjectUnitTests
         public void DeleteEmployee_DeletingNewEmployee_ShouldNotMatch()
         {
             // Arrange
-            List<Employee> toUpdateEmployees = new List<Employee>
+            List<EmployeeBase> toUpdateEmployees = new List<EmployeeBase>
             {
-                new Employee()
+                new Manager()
                 {
                     EmployeeId = 1,
                     Forename = "Tom",
@@ -220,7 +220,7 @@ namespace EmployeeProjectUnitTests
                     Email = "tc@g.com",
                     Position = EmployeeType.Manager
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 2,
                     Forename = "Brad",
@@ -228,7 +228,7 @@ namespace EmployeeProjectUnitTests
                     Email = "bp@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Intern()
                 {
                     EmployeeId = 3,
                     Forename = "Bill",
@@ -236,7 +236,7 @@ namespace EmployeeProjectUnitTests
                     Email = "bs@g.com",
                     Position = EmployeeType.Intern
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 4,
                     Forename = "Jack",
@@ -244,7 +244,7 @@ namespace EmployeeProjectUnitTests
                     Email = "js@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 5,
                     Forename = "John",
@@ -252,7 +252,7 @@ namespace EmployeeProjectUnitTests
                     Email = "jl@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 6,
                     Forename = "Kate",
@@ -260,7 +260,7 @@ namespace EmployeeProjectUnitTests
                     Email = "ka@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Intern()
                 {
                     EmployeeId = 7,
                     Forename = "Ahhhhhhhh",
@@ -268,7 +268,7 @@ namespace EmployeeProjectUnitTests
                     Email = "js@g.com",
                     Position = EmployeeType.Intern
                 },
-                new Employee()
+                new Manager()
                 {
                     EmployeeId = 8,
                     Forename = "Ted",
@@ -280,7 +280,7 @@ namespace EmployeeProjectUnitTests
             var employeeId = 2;
 
             // Act 
-            List<Employee> employees = controller.DeleteEmployee(employeeId, toUpdateEmployees).Result;
+            List<EmployeeBase> employees = controller.DeleteEmployee(employeeId, toUpdateEmployees).Result;
 
             // Assert
             CollectionAssert.AreNotEqual(allEmployees, employees);
@@ -291,9 +291,9 @@ namespace EmployeeProjectUnitTests
         public void DeleteEmployee_DeletingNewEmployee_ShouldNotMatchMK2()
         {
             // Arrange
-            List<Employee> toUpdateEmployees = new List<Employee>
+            List<EmployeeBase> toUpdateEmployees = new List<EmployeeBase>
             {
-                new Employee()
+                new Manager()
                 {
                     EmployeeId = 1,
                     Forename = "Tom",
@@ -301,7 +301,7 @@ namespace EmployeeProjectUnitTests
                     Email = "tc@g.com",
                     Position = EmployeeType.Manager
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 2,
                     Forename = "Brad",
@@ -309,7 +309,7 @@ namespace EmployeeProjectUnitTests
                     Email = "bp@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Intern()
                 {
                     EmployeeId = 3,
                     Forename = "Bill",
@@ -317,7 +317,7 @@ namespace EmployeeProjectUnitTests
                     Email = "bs@g.com",
                     Position = EmployeeType.Intern
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 4,
                     Forename = "Jack",
@@ -325,7 +325,7 @@ namespace EmployeeProjectUnitTests
                     Email = "js@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 5,
                     Forename = "John",
@@ -333,7 +333,7 @@ namespace EmployeeProjectUnitTests
                     Email = "jl@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Engineer()
                 {
                     EmployeeId = 6,
                     Forename = "Kate",
@@ -341,7 +341,7 @@ namespace EmployeeProjectUnitTests
                     Email = "ka@g.com",
                     Position = EmployeeType.Engineer
                 },
-                new Employee()
+                new Intern()
                 {
                     EmployeeId = 7,
                     Forename = "Ahhhhhhhh",
@@ -349,7 +349,7 @@ namespace EmployeeProjectUnitTests
                     Email = "js@g.com",
                     Position = EmployeeType.Intern
                 },
-                new Employee()
+                new Manager()
                 {
                     EmployeeId = 8,
                     Forename = "Ted",
@@ -361,7 +361,7 @@ namespace EmployeeProjectUnitTests
             var employeeId = 1;
 
             // Act 
-            List<Employee> employees = controller.DeleteEmployee(employeeId, toUpdateEmployees).Result;
+            List<EmployeeBase> employees = controller.DeleteEmployee(employeeId, toUpdateEmployees).Result;
             bool areEqual = allEmployees.Equals(employees);
 
             // Assert
@@ -376,14 +376,14 @@ namespace EmployeeProjectUnitTests
         {
             // Arrange
             string path = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\Employees.json";
-            List<Employee> allEmployees = controller.DeserizalizeEmployeeJson(path);
+            List<EmployeeBase> allEmployees = controller.DeserizalizeEmployeeJson(path);
             var employeeId = 100000;
             bool couldFindId = true;
 
             // Act 
             if (allEmployees.Any(e => e.EmployeeId == employeeId))
             {
-                List<Employee> deletedEmployee = controller.DeleteEmployee(employeeId, allEmployees).Result;
+                List<EmployeeBase> deletedEmployee = controller.DeleteEmployee(employeeId, allEmployees).Result;
                 couldFindId = true;
             }
             else
@@ -403,7 +403,7 @@ namespace EmployeeProjectUnitTests
             string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesMultipleObjects.json";
 
             // Act 
-            List<Employee> deserialized = controller.DeserizalizeEmployeeJson(path);
+            List<EmployeeBase> deserialized = controller.DeserizalizeEmployeeJson(path);
 
             // Assert
             Assert.IsNotNull(deserialized);
@@ -416,7 +416,7 @@ namespace EmployeeProjectUnitTests
             string path = @"C:\Users\William\source\repos\EmployeeProject\EmployeeProject\TestJsonFiles\EmployeesoneValue.json";
 
             // Act 
-            List<Employee> deserialized = controller.DeserizalizeEmployeeJson(path);
+            List<EmployeeBase> deserialized = controller.DeserizalizeEmployeeJson(path);
 
             // Assert
             Assert.IsNotNull(deserialized);

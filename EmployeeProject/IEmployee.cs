@@ -13,6 +13,7 @@ namespace EmployeeProject
         string Forename { get; set; }
 
         string Surname { get; set; }
+        string Email { get; set; }
 
         EmployeeType Position { get; set; }
     }

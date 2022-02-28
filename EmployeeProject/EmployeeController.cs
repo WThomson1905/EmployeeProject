@@ -16,14 +16,14 @@ namespace EmployeeProject
         public static string schemaPath = "C:\\Users\\William\\source\\repos\\EmployeeProject\\EmployeeProject\\schema.json";
 
 
-        public async Task<List<Employee>> DefineEmployees()
+        public async Task<List<EmployeeBase>> DefineEmployees()
         {
-            List<Employee> employees;
+            List<EmployeeBase> employees;
             if (new FileInfo(path).Length == 0)
             {
-                employees = new List<Employee>
+                employees = new List<EmployeeBase>
                 {
-                    new Employee()
+                    new Manager()
                     {
                         EmployeeId = 1,
                         Forename = "Tom",
@@ -31,7 +31,7 @@ namespace EmployeeProject
                         Email = "tc@g.com",
                         Position = EmployeeType.Manager
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 2,
                         Forename = "Brad",
@@ -39,7 +39,7 @@ namespace EmployeeProject
                         Email = "bp@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Intern()
                     {
                         EmployeeId = 3,
                         Forename = "Bill",
@@ -47,7 +47,7 @@ namespace EmployeeProject
                         Email = "bs@g.com",
                         Position = EmployeeType.Intern
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 4,
                         Forename = "Jack",
@@ -55,7 +55,7 @@ namespace EmployeeProject
                         Email = "js@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 5,
                         Forename = "John",
@@ -63,7 +63,7 @@ namespace EmployeeProject
                         Email = "jl@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Engineer()
                     {
                         EmployeeId = 6,
                         Forename = "Kate",
@@ -71,7 +71,7 @@ namespace EmployeeProject
                         Email = "ka@g.com",
                         Position = EmployeeType.Engineer
                     },
-                    new Employee()
+                    new Intern()
                     {
                         EmployeeId = 7,
                         Forename = "Ahhhhhhhh",
@@ -79,7 +79,7 @@ namespace EmployeeProject
                         Email = "js@g.com",
                         Position = EmployeeType.Intern
                     },
-                    new Employee()
+                    new Manager()
                     {
                         EmployeeId = 8,
                         Forename = "Tommy",
@@ -101,12 +101,12 @@ namespace EmployeeProject
 
 
 
-        public List<Employee> FilterEmployees(EmployeeType position, List<Employee> employees)
+        public List<EmployeeBase> FilterEmployees(EmployeeType position, List<EmployeeBase> employees)
         {
             //List<Employee> employees = DeserizalizeEmployeeJson(path);
-            List<Employee> employeesFileteredByPosition = new List<Employee>();
+            List<EmployeeBase> employeesFileteredByPosition = new List<EmployeeBase>();
 
-            foreach (Employee employee in employees)
+            foreach (EmployeeBase employee in employees)
             {
                 if (employee.Position == position)
                 {
@@ -118,7 +118,7 @@ namespace EmployeeProject
         }
 
 
-        public async Task<bool> AddEmployee(Employee employee, List<Employee> employees)
+        public async Task<bool> AddEmployee(EmployeeBase employee, List<EmployeeBase> employees)
         {
             //Write json data
             bool validJsonToSchema = await CheckJsonWithSchema(employee, schemaPath);
@@ -134,7 +134,7 @@ namespace EmployeeProject
 
         public async Task<bool> UpdateEmployeeAsync(int employeeId, EmployeeType selectedEmployeeType)
         {
-            List<Employee> employees = DeserizalizeEmployeeJson(path);
+            List<EmployeeBase> employees = DeserizalizeEmployeeJson(path);
             int currentId;
             bool validJsonToSchema = false; 
             foreach (var employee in employees)
@@ -161,8 +161,8 @@ namespace EmployeeProject
             // business logic for checking whether you can change emp position
             // manager be changed to intern
             // engineer be changed to intern
-            List<Employee> employees = DeserizalizeEmployeeJson(path);
-            Employee currentEmployee = employees.First(e => e.EmployeeId == currentEmployeeId);
+            List<EmployeeBase> employees = DeserizalizeEmployeeJson(path);
+            EmployeeBase currentEmployee = employees.First(e => e.EmployeeId == currentEmployeeId);
 
             if (currentEmployee.Position == EmployeeType.Manager && selectedEmployeeType == EmployeeType.Intern)
             {
@@ -181,7 +181,7 @@ namespace EmployeeProject
        
 
 
-        public async Task<List<Employee>> DeleteEmployee(int employeeId, List<Employee> employees)
+        public async Task<List<EmployeeBase>> DeleteEmployee(int employeeId, List<EmployeeBase> employees)
         {
 
             int currentId;
@@ -213,9 +213,9 @@ namespace EmployeeProject
 
 
 
-        private async Task<bool> CheckJsonWithSchema(Employee employee, string jsonSchemaPath)
+        private async Task<bool> CheckJsonWithSchema(EmployeeBase employee, string jsonSchemaPath)
         {
-            List<Employee> employees = new List<Employee>
+            List<EmployeeBase> employees = new List<EmployeeBase>
                 { employee };
                 
             var jsonSchema = await JsonSchema.FromFileAsync(jsonSchemaPath);
@@ -228,7 +228,7 @@ namespace EmployeeProject
             return true;
         }
 
-        public async Task SerializeToFile(List<Employee> employees, string jsonPath)
+        public async Task SerializeToFile(List<EmployeeBase> employees, string jsonPath)
         {
             using (var stream = File.Create(jsonPath))
             {
@@ -239,12 +239,12 @@ namespace EmployeeProject
         }
 
 
-        public List<Employee> DeserizalizeEmployeeJson(string path)
+        public List<EmployeeBase> DeserizalizeEmployeeJson(string path)
         {
             try
             {
                 var filePath = new StreamReader(path);
-                var employees = JsonSerializer.Deserialize<List<Employee>>(filePath.ReadToEnd());
+                var employees = JsonSerializer.Deserialize<List<EmployeeBase>>(filePath.ReadToEnd());
                 filePath.Close();
                 return employees;
             } catch (JsonException ex)
